@@ -1,12 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const apiUrl =
-  process.env.NODE_ENV === "production"
+  process.env.NEXT_PUBLIC_VERCEL_ENV === "production"
     ? process.env.NEXT_PUBLIC_API_URL_PROD
     : process.env.NEXT_PUBLIC_API_URL_DEV;
 console.log(process.env.NEXT_PUBLIC_VERCEL_ENV);
-console.log(process.env.NEXT_PUBLIC_API_URL_PROD);
-console.log(process.env.NEXT_PUBLIC_API_URL_DEV);
 
 export const api = createApi({
   reducerPath: "api",
