@@ -2,8 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['test.alexfedorov.pro:8443/api'],
-    domains: ['test.alexfedorov.pro'],
+    //domains: ['alexfedorov.pro:8443/api'],
+    domains: ['callback4bot.alexfedorov.pro'],
   },
 };
 
