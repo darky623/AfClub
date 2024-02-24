@@ -1,0 +1,58 @@
+.tariffs {
+    padding: 0 20px;
+    .tariffs_shared {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .tariffs_cards {
+        margin-top: 25px;
+        .tariffs_card {
+            display: flex;
+            justify-content: space-between;
+            border-radius: 10px;
+            background: #f2f2f2;
+            padding: 10px 9px 15px  9px;
+            margin-bottom: 13px;
+            .tariffs_card_desc {
+                width: 92%;
+                h3 {
+                    color: #000;
+                    font-family: "Gilroy", sans-serif;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 800;
+                    line-height: normal;
+                }
+                p {
+                    color: #000;
+                    font-family: "Gilroy", sans-serif;
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 300;
+                    line-height: normal;
+                    padding: 5px 0 7px 0;
+                }
+                h4 {
+                    color: #000;
+                    font-family: "Gilroy", sans-serif;
+                    font-size: 14px;
+                    font-style: normal;
+                    font-weight: 800;
+                    line-height: normal;
+                    span {
+                        color: #000;
+                        font-family: "Gilroy", sans-serif;
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 300;
+                        line-height: normal;
+                    }
+                }
+            }
+            .tarrifs_card_btn {
+                height: 20px;
+            }
+        }
+    }
+}

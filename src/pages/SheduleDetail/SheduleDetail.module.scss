@@ -1,0 +1,28 @@
+.schedule_detail {
+    padding: 0 20px;
+    .schedule_detail_variants {
+        margin: 32px 0 25px 0;
+        .schedule_detail_variants_select {
+            width: 100%;
+            line-height: 0%;
+        }
+    }
+    h3 {
+        color: #000;
+        font-family: "Gilroy", sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 800;
+        margin-left: 11px;
+    }
+    .schedule_detail_beginning {
+        width: 173px;
+        height: 35px;
+        margin: 12px 0 31px 0;
+    }
+    .schedule_detail_complete {
+        width: 173px;
+        height: 35px;
+        margin: 12px 0 31px 0;
+    }
+}

@@ -1,0 +1,76 @@
+.coach_desc {
+    display: flex;
+    background: #f2f2f2;
+    height: 144px;
+    padding: 17px 22px 17px 21px;
+    .coach_desc_img {
+        width: 108px;
+        height: 108px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        background: #d9d9d9;
+        margin-right: 18px;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+        p {
+            color: rgba(0, 0, 0, 0.335);
+            font-family: "Gilroy", sans-serif;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 800;
+            line-height: normal;
+        }
+    }
+    .coach_desc_info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .coach_desc_info_name {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            h3 {
+                color: #000;
+                font-family: "Gilroy", sans-serif;
+                font-size: 20px;
+                font-style: normal;
+                font-weight: 800;
+                line-height: normal;
+                margin-right: 14px;
+                max-width: 124px;
+            }
+            .coach_desc_info_name_btn {
+                height: 24px;
+            }
+        }
+        .coach_desc_info_role {
+            p {
+                color: #000;
+                font-family: "Gilroy", sans-serif;
+                font-size: 16px;
+                margin: 8px 0;
+                font-style: normal;
+                font-weight: 300;
+                line-height: normal;
+            }
+            p:last-child {
+                color: #000;
+                margin: 0;
+                font-family: "Gilroy", sans-serif;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 800;
+                line-height: normal;
+                span {
+                    font-weight: 300;
+                }
+            }
+        }
+    }
+}

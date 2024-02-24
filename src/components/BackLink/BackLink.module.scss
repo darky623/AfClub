@@ -1,0 +1,21 @@
+.back_link {
+    button {
+        z-index: 1;
+        padding: 5px 0;
+        position: relative;
+        margin-top: 25px;
+        border-radius: 10px;
+        display: flex;
+        align-self: center;
+        text-decoration: none;
+        color: #000;
+        font-family: "Gilroy", sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: normal;
+        img {
+            margin-right: 7px;
+        }
+    }
+}

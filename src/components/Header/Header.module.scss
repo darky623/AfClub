@@ -1,0 +1,21 @@
+.header {
+    height: 44px;
+    background: #241d1d;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    width: 100%;
+    .header_logo {
+        z-index: 5;
+        a {
+            color: #fff;
+            font-family: "Gilroy", sans-serif;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 800;
+            line-height: normal;
+            text-decoration: none;
+        }
+    }
+}

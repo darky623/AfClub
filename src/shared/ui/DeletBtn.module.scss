@@ -1,0 +1,25 @@
+.delete_btn {
+    display: flex;
+    padding: 4px 5px 4px 4px;
+    border-radius: 5px;
+    border: 1px solid #f2f2f2;
+    justify-content: center;
+    background: #f2f2f2;
+    transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+    filter: drop-shadow(0px 0px 0px rgba(0, 0, 0, 0));
+    span {
+        opacity: 0.34;
+    }
+}
+.delete_btn:hover {
+    transform: translateY(-1px);
+    filter: drop-shadow(0px 3px 3px rgba(255, 255, 255, 0.3)) drop-shadow(0px 3px 3px rgba(0, 0, 0, 0.713));
+    border: 1px solid #a7a7a7;
+}
+.delete_btn:active {
+    filter: drop-shadow(0px 0px 0px rgba(0, 0, 0, 0));
+    border: 1px solid #f2f2f2;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.346) inset;
+    transform: translateY(1px);
+    transition: transform 0.1s, box-shadow 0.1s, filter 0.1s;
+}

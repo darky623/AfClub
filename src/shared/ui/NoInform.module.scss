@@ -1,0 +1,152 @@
+$anims: float, floatReverse, float2, floatReverse2;
+$easeSmooth: cubic-bezier(0.39, 0.575, 0.28, 0.995);
+$color: #595959;
+
+.container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    background: white;
+    color: black;
+    font-family: arial, sans-serif;
+    overflow: hidden;
+}
+
+.content {
+    position: relative;
+    width: 600px;
+    max-width: 100%;
+    margin: 20px;
+    background: white;
+    padding: 60px 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: -10px 10px 67px -12px rgba(0, 0, 0, 0.27);
+    opacity: 0;
+    animation: apparition 0.4s 0.4s $easeSmooth forwards;
+    border-radius: 10px;
+
+    p {
+        color: #000;
+        font-family: "Gilroy", sans-serif;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: normal;
+        margin-bottom: 15px;
+        span {
+            color: #000;
+            font-family: "Gilroy", sans-serif;
+            font-size: 28px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+        }
+    }
+
+    button {
+        display: flex;
+        align-items: center;
+        color: #000;
+        font-family: "Gilroy", sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: normal;
+        padding: 5px;
+        margin-top: 5px;
+        img {
+            margin: 0 6px 1px 0;
+
+        }
+    }
+}
+
+.particle {
+    position: absolute;
+    display: block;
+    pointer-events: none;
+
+    @for $i from 1 through 80 {
+        &:nth-child(#{$i}) {
+            $size: random(20) + 10;
+            $blur: $i * 0.02;
+            $speed: random(20) + 20;
+            $delay: random(10) * 0.1;
+            $anim: nth($anims, random(length($anims)));
+
+            top: random(100) / (100 + $size/8) * 100%;
+            left: random(100) / (100 + $size/10) * 100%;
+            font-size: $size + px;
+            filter: blur((#{$blur}) + px);
+            animation: $speed + s $anim infinite;
+        }
+    }
+}
+
+@keyframes apparition {
+    from {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(180px);
+    }
+}
+
+@keyframes floatReverse {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-180px);
+    }
+}
+
+@keyframes float2 {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(28px);
+    }
+}
+
+@keyframes floatReverse2 {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-28px);
+    }
+}
+
+@mixin animation($delay, $duration, $animation) {
+    animation-delay: $delay;
+    animation-duration: $duration;
+    animation-name: $animation;
+    animation-iteration-count: infinite;
+    animation-fill-mode: forwards;
+}

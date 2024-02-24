@@ -1,0 +1,26 @@
+.groups {
+    padding: 0 20px;
+    .groups_transitions {
+        display: flex;
+        flex-direction: column;
+        margin-top: 22px;
+        a {
+            border-radius: 10px;
+            background: #f2f2f2;
+            color: #000;
+            font-family: "Gilroy", sans-serif;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 300;
+            line-height: normal;
+            padding: 12px 13px;
+            text-decoration: none;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 11px;
+        }
+        a:last-child {
+            margin-bottom: 0;
+        }
+    }
+}

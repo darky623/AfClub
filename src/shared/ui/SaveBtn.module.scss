@@ -1,0 +1,62 @@
+.save_btn {
+  position: fixed;
+  max-width: 800px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  bottom: 26px;
+  padding: 0 20px;
+  button {
+    padding: 12px 0;
+    width: 100%;
+    text-align: center;
+    filter: drop-shadow(0px -4px 4px rgba(255, 255, 255, 0.3))
+      drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.3));
+    -webkit-filter: drop-shadow(0px -4px 4px rgba(255, 255, 255, 0.3))
+      drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.3));
+    background: #54b54c;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    font-family: "Gilroy", sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    position: relative;
+    transition: background-color 0.6s ease;
+    -webkit-transition: background-color 0.6s ease;
+    overflow: hidden;
+    border-radius: 10px;
+    transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+    &:after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      top: 50%;
+      left: 50%;
+      transform-style: flat;
+      transform: translate3d(-50%, -50%, 0);
+      -webkit-transform: translate3d(-50%, -50%, 0);
+      background: rgba(173, 173, 173, 0.349);
+      border-radius: 100%;
+      transition: width 0.3s ease, height 0.3s ease;
+    }
+
+    &:hover {
+      filter: drop-shadow(0px -6px 4px rgba(197, 197, 197, 0.3))
+        drop-shadow(0px 6px 4px rgba(0, 0, 0, 0.464));
+    }
+    &:active {
+      filter: drop-shadow(0px 0px 0px rgba(0, 0, 0, 0));
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.346) inset;
+      -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.346) inset;
+      transform: translateY(1px);
+      transition: transform 0.1s, box-shadow 0.1s, filter 0.1s;
+      &:after {
+        width: 300px;
+        height: 300px;
+      }
+    }
+  }
+}

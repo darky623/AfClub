@@ -1,0 +1,51 @@
+.templates {
+  padding: 0 20px;
+  .templates_shared {
+    display: flex;
+    justify-content: space-between;
+  }
+  .templates_transitions {
+    display: flex;
+    flex-direction: column;
+    margin-top: 22px;
+    a {
+      border-radius: 10px;
+      background: #f2f2f2;
+      color: #000;
+      font-family: "Gilroy", sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 300;
+      line-height: normal;
+      padding: 12px 13px;
+      text-decoration: none;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 11px;
+    }
+  }
+}
+
+.wrapper__link {
+  position: relative;
+}
+
+.wrapper__btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100px;
+}
+.wraper__EditingBtn {
+  position: absolute;
+  right: 50px;
+  top: 8px;
+  z-index: 2;
+}
+
+.wraper__DeletBtn {
+  position: absolute;
+  right: 90px;
+  top: 8px;
+  z-index: 2;
+}

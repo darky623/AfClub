@@ -1,0 +1,50 @@
+.finance {
+    padding: 0 20px;
+    .finance_expeneses {
+        margin-top: 22px;
+        .finance_expeneses_title {
+            color: #000;
+            font-family: "Gilroy", sans-serif;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 800;
+            line-height: normal;
+            margin-bottom: 12px;
+        }
+        .finance_expeneses_card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 35px;
+            border-radius: 10px;
+            background: #f2f2f2;
+            padding: 8px 14px 9px 13px;
+            margin-bottom: 6px;
+            p {
+                color: #000;
+                font-family: "Gilroy", sans-serif;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 300;
+                line-height: normal;
+            }
+            h3 {
+                color: #000;
+                font-family: "Gilroy", sans-serif;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 800;
+                line-height: normal;
+            }
+        }
+        .finance_expeneses_date {
+            color: #000;
+            font-family: "Gilroy", sans-serif;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 800;
+            line-height: normal;
+            margin: 0 0 7px 0;
+        }
+    }
+}

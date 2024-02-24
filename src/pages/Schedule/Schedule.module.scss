@@ -1,0 +1,84 @@
+.schedule {
+    padding: 0 20px;
+    .schedule_shared {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .schedule_info {
+        margin-top: 27px;
+        h3 {
+            color: #000;
+            font-family: "Gilroy", sans-serif;
+            font-size: 16px;
+            margin: 27px 0 13px 0;
+            font-style: normal;
+            font-weight: 800;
+            line-height: normal;
+        }
+        .schedule_info_time {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            .schedule_info_busy {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                border-radius: 10px;
+                background: #ddd;
+                padding: 8px 6px;
+                transition: border-color 0.2s, filter 0.2s;
+                filter: drop-shadow(0px 0px 0px rgba(0, 0, 0, 0));
+                cursor: pointer;
+                p {
+                    color: #000;
+                    font-family: "Gilroy", sans-serif;
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 300;
+                    line-height: normal;
+                    span {
+                        font-size: 14px;
+                        font-weight: 800;
+                        margin-right: 10px;
+                    }
+                }
+            }
+            .schedule_info_busy:hover {
+                filter: drop-shadow(0px 1.5px 1.5px rgba(255, 255, 255, 0.3))
+                    drop-shadow(0px 1.5px 1.5px rgba(0, 0, 0, 0.713));
+                outline: none;
+            }
+            .schedule_info_busy:active {
+                filter: drop-shadow(0px 0px 0px rgba(0, 0, 0, 0));
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.346) inset;
+                transform: translateY(1px);
+                transition: transform 0.1s, box-shadow 0.1s, filter 0.1s;
+            }
+            .schedule_info_anactive {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+                background: #b9ffb7;
+                border-radius: 10px;
+                padding: 8px 6px;
+                p {
+                    color: #000;
+                    font-family: "Gilroy", sans-serif;
+                    font-size: 16px;
+                    font-style: normal;
+                    font-weight: 300;
+                    line-height: normal;
+                    span {
+                        font-size: 14px;
+                        font-weight: 800;
+                        margin-right: 10px;
+                    }
+                }
+            }
+            
+        }
+    }
+}
