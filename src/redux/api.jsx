@@ -1,17 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { useRouter } from "next/router";
-const router = useRouter();
-const currentUrl = router.asPath;
 
 const apiUrl =
   process.env.NODE_ENV === "production"
     ? process.env.NEXT_PUBLIC_API_URL_PROD
     : process.env.NEXT_PUBLIC_API_URL_DEV;
-console.log(
-  currentUrl === "af-dev-stend.vercel.app"
-    ? "https://test.alexfedorov.pro:8443/api"
-    : "https://callback4bot.alexfedorov.pro:8443/api"
-);
+
 console.log(process.env.NODE_ENV);
 console.log(process.env.NEXT_PUBLIC_API_URL_PROD);
 console.log(process.env.NEXT_PUBLIC_API_URL_DEV);
