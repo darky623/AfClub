@@ -1,9 +1,13 @@
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    //domains: ['alexfedorov.pro:8443/api'],
-    domains: ['callback4bot.alexfedorov.pro'],
+    domains: [
+      'test.alexfedorov.pro:8443',
+      'callback4bot.alexfedorov.pro',
+      'test.alexfedorov.pro',
+    ],
   },
 };
 
