@@ -1,9 +1,16 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+const apiUrl =
+  process.env.NODE_ENV === "production"
+    ? process.env.API_URL_PROD
+    : process.env.API_URL_DEV;
+console.log(process.env.API_URL_PROD);
+console.log(process.env.API_URL_DEV);
+
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://callback4bot.alexfedorov.pro:8443/api",
+    baseUrl: apiUrl,
   }),
   endpoints: (builder) => ({
     getLogin: builder.query({
