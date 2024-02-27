@@ -167,8 +167,6 @@ const TemplateDetail = () => {
       setApproaches("");
       setExerciseName("");
       setMuscleName("");
-      setSelectedOptionExercises("Выберите группу мышц");
-      setSelectedOptionEx("Выберите Упражнение");
       setExsType("");
       setExsTypeId("");
       toast.success("Успешно изменено");
@@ -176,6 +174,9 @@ const TemplateDetail = () => {
     } catch (error) {
       setError(true);
       toast.error("Произошла ошибка. Пожалуйста, попробуйте еще раз.");
+    } finally {
+      setSelectedOptionExercises("Выберите группу мышц");
+      setSelectedOptionEx("Выберите Упражнение");
     }
   };
 
@@ -205,8 +206,6 @@ const TemplateDetail = () => {
       setApproaches("");
       setExerciseName("");
       setMuscleName("");
-      setSelectedOptionExercises("Выберите группу мышц");
-      setSelectedOptionEx("Выберите Упражнение");
       setExsType("");
       setExsTypeId("");
       toast.success("Успешно изменено");
@@ -214,6 +213,9 @@ const TemplateDetail = () => {
     } catch (error) {
       setError(true);
       toast.error("Произошла ошибка. Пожалуйста, попробуйте еще раз.");
+    } finally {
+      setSelectedOptionExercises("Выберите группу мышц");
+      setSelectedOptionEx("Выберите Упражнение");
     }
   };
 
@@ -294,7 +296,7 @@ const TemplateDetail = () => {
         <input
           type="text"
           placeholder="Напишите название тренировки"
-          maxLength={25}
+          maxLength={100}
           value={trainingName}
           onChange={(e) => setTrainingName(e.target.value)}
         />
@@ -315,7 +317,7 @@ const TemplateDetail = () => {
         <input
           type="text"
           placeholder="Напишите новое название тренировки"
-          maxLength={25}
+          maxLength={100}
           value={newTrainingName}
           onChange={(e) => setNewtrainingName(e.target.value)}
         />
@@ -368,7 +370,7 @@ const TemplateDetail = () => {
             }}
           >
             {dropDown && (
-              <Select.Option>
+              <Select.Option value={""}>
                 <p onClick={() => setMusleFun(true)}>
                   <span>
                     <Image
@@ -377,8 +379,8 @@ const TemplateDetail = () => {
                       width={12}
                       height={12}
                       style={{ marginRight: "6px" }}
-                    />{" "}
-                    Свое yпражнение{" "}
+                    />
+                    Свое yпражнение
                   </span>
                 </p>
               </Select.Option>
@@ -414,7 +416,7 @@ const TemplateDetail = () => {
           <input
             type="text"
             placeholder="Название"
-            maxLength={25}
+            maxLength={100}
             value={musle}
             onChange={(e) => {
               handleSelectChangeEx(e.target.value),
@@ -429,7 +431,7 @@ const TemplateDetail = () => {
         <input
           type="text"
           placeholder="Комментарий"
-          maxLength={25}
+          maxLength={100}
           value={approaches}
           onChange={(e) => setApproaches(e.target.value)}
         />
@@ -479,7 +481,7 @@ const TemplateDetail = () => {
             }}
           >
             {dropDown && (
-              <Select.Option>
+              <Select.Option value={""}>
                 <p onClick={() => setMusleFun(true)}>
                   <span>
                     <Image
@@ -526,7 +528,7 @@ const TemplateDetail = () => {
           <input
             type="text"
             placeholder="Название"
-            maxLength={25}
+            maxLength={100}
             value={musle}
             onChange={(e) => {
               handleSelectChangeEx(e.target.value),
@@ -540,7 +542,7 @@ const TemplateDetail = () => {
         <input
           type="text"
           placeholder="Комментарий"
-          maxLength={25}
+          maxLength={100}
           value={approaches}
           onChange={(e) => setApproaches(e.target.value)}
         />
