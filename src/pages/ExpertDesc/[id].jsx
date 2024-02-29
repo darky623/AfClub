@@ -14,15 +14,18 @@ const ExpertDesc = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const [token, setToken ] = useState(null)
+  const [token, setToken] = useState(null);
 
-  useEffect(()=>{
-    setToken(localStorage.getItem("token"))
-  }, [])
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+  }, []);
 
-  const { data: resultData, isError } = useGetExpertClientsQuery({token, id}, {
-    skip: !token,
-  });
+  const { data: resultData, isError } = useGetExpertClientsQuery(
+    { token, id },
+    {
+      skip: !token,
+    }
+  );
 
   useEffect(() => {
     if (resultData) {
@@ -55,6 +58,7 @@ const ExpertDesc = () => {
             <>
               {data[0].portrait ? (
                 <Image
+                  className={s.expert_desc_imgage}
                   src={data[0].portrait}
                   alt="Portrait"
                   width={100}

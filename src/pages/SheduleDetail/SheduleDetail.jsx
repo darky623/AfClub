@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import BackLink from "../../components/BackLink/BackLink";
 import SaveBtn from "../../shared/ui/SaveBtn";
 import s from "./SheduleDetail.module.scss";
@@ -12,17 +13,17 @@ import {
 import { useRouter } from "next/router";
 
 const SheduleDetail = () => {
-  const router = useRouter()
-  const [token, setToken ] = useState(null)
+  const router = useRouter();
+  const [token, setToken] = useState(null);
   const [startDate, setStartDate] = useState(dayjs());
   const [endDate, setEndDate] = useState(dayjs());
   const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
   const [selectValue, setSelectValue] = useState(null);
   const [data, setData] = useState([]);
 
-  useEffect(()=>{
-    setToken(localStorage.getItem("token"))
-  }, [])
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+  }, []);
 
   const { data: resultData, isError } = useGetServicesQuery(token, {
     skip: !token,
@@ -51,6 +52,10 @@ const SheduleDetail = () => {
   };
 
   const sendShedule = () => {
+    if (!selectValue) {
+      toast.error("Выберите тип услуги пожалуйста");
+      return;
+    }
     const formattedStartDate = startDate.format("DD/MM/YYYY HH:mm:ss");
     const formattedEndDate = endDate.format("DD/MM/YYYY HH:mm:ss");
     const createData = {
@@ -63,7 +68,7 @@ const SheduleDetail = () => {
       token,
       createData,
     });
-    router.back()
+    router.back();
   };
 
   return (

@@ -20,8 +20,8 @@ const CoachDesc = ({ coachData, refetch }) => {
   const [uploadPhoto] = useUploadPhotoMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [createData, setCreateData] = useState({
-    name: "",
-    speciality: "",
+    name: coachData.name,
+    speciality: coachData.speciality,
   });
 
   const handleOk = async () => {
@@ -31,9 +31,11 @@ const CoachDesc = ({ coachData, refetch }) => {
           token,
           createData,
         });
-        await uploadPhoto({ token, image: photo });
+        if (photo) {
+          await uploadPhoto({ token, image: photo });
+        }
         setIsModalOpen(false);
-        setCreateData({ name: "", speciality: "" });
+        // setCreateData({ name: "", speciality: "" });
         toast.success("Успешно изменено");
         refetch();
       } catch (error) {
@@ -94,7 +96,7 @@ const CoachDesc = ({ coachData, refetch }) => {
                 />
                 <input
                   type="text"
-                  placeholder="Новая специализация"
+                  placeholder={"Новая специализация"}
                   maxLength="19"
                   minLength="3"
                   value={createData.speciality}
