@@ -49,7 +49,7 @@ const WardsDetail = () => {
   if (loading) {
     return <Loader />;
   }
-
+  console.log(data);
   return (
     <div className={s.wards_detail}>
       <BackLink menuTitle="Покупки" currentPage="Консультация 23.10" />
@@ -94,7 +94,7 @@ const WardsDetail = () => {
             </div>
           ))} */}
           {data.map((purchase) => (
-            <Collapse accordion expandIconPosition="right">
+            <Collapse accordion expandIconPosition="end">
               <Collapse.Panel
                 header="Индивидуальный план"
                 key="1"
@@ -117,16 +117,10 @@ const WardsDetail = () => {
                 <QuestionnaireComponets id={purchase.member_id} />
               </Collapse.Panel>
               <Collapse.Panel
-                header={
-                  <a
-                    className={s.collapse_link}
-                    href={purchase.chat_id}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Перейти в чат
-                  </a>
-                }
+                onClick={() => {
+                  window.open(`${purchase.chat_id}`, "_blank");
+                }}
+                header={<p className={s.collapse_link}>Перейти в чат</p>}
                 key="4"
                 className={s.wards_detail_Collapse}
               ></Collapse.Panel>

@@ -287,6 +287,10 @@ select {
   background-color: transparent !important;
 }
 
+.ant-collapse-content-box {
+  padding: 0 !important;
+}
+
 .ant-collapse-item:last-child,
 .ant-collapse-item:last-child > .ant-collapse-header {
   border-radius: 12px !important;

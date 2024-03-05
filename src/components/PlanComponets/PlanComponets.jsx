@@ -132,7 +132,7 @@ const PlanComponets = ({ id }) => {
 
   return (
     <div className={s.plan}>
-      <BackLink menuTitle="Консультация 23.10" currentPage="План" />
+      {/* <BackLink menuTitle="Консультация 23.10" currentPage="План" /> */}
       {data.length !== 0 ? (
         <>
           {data &&

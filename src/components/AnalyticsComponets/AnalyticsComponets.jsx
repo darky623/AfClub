@@ -107,7 +107,7 @@ const AnalyticsComponets = ({ id }) => {
 
   return (
     <div className={s.analytics}>
-      <BackLink menuTitle="Консультация 23.10" currentPage="Аналитика" />
+      {/* <BackLink menuTitle="Консультация 23.10" currentPage="Аналитика" /> */}
       <div className={s.analytics_date}>
         <span>С</span>
         <DatePicker

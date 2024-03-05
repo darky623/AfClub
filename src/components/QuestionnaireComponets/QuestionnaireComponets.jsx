@@ -61,7 +61,7 @@ const QuestionnaireComponets = ({ id }) => {
 
   return (
     <div className={s.group_detail}>
-      <BackLink menuTitle="назад" currentPage="Анкета" />
+      {/* <BackLink menuTitle="назад" currentPage="Анкета" /> */}
       <div className={s.group_detail_desc}>
         {data?.length !== 0 ? (
           <>
