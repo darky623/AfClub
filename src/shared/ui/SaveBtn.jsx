@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import s from "./SaveBtn.module.scss";
 
 const SaveBtn = ({
+  analytic = false,
   nameBtn,
   onClick,
   background = "54B54C",
@@ -18,7 +19,10 @@ const SaveBtn = ({
   };
 
   return (
-    <div className={s.save_btn}>
+    <div
+      className={s.save_btn}
+      style={analytic ? { position: "absolute" } : {}}
+    >
       <button
         href="#"
         id="button"

@@ -7,21 +7,29 @@ import { useRouter } from "next/router";
 import Loader from "../../shared/ui/Loader";
 import { useGetPurchaseQuery } from "../../redux/api";
 import NoInform from "../../shared/ui/NoInform";
+import { Collapse } from "antd";
+import AnalyticsComponets from "../../components/AnalyticsComponets/AnalyticsComponets";
+import PlanComponets from "../../components/PlanComponets/PlanComponets";
+import QuestionnaireComponets from "../../components/QuestionnaireComponets/QuestionnaireComponets";
+import ScrollToTopButton from "../../shared/ui/ScrollToTopButton";
 
 const WardsDetail = () => {
-  const [token, setToken ] = useState(null)
+  const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const router = useRouter();
   const { id } = router.query;
 
-  const { data: resultData, isError } = useGetPurchaseQuery({token, id}, {
-    skip: !token,
-  });
+  const { data: resultData, isError } = useGetPurchaseQuery(
+    { token, id },
+    {
+      skip: !token,
+    }
+  );
 
-  useEffect(()=>{
-    setToken(localStorage.getItem("token"))
-  }, [])
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+  }, []);
 
   useEffect(() => {
     if (resultData) {
@@ -61,8 +69,7 @@ const WardsDetail = () => {
               </p>
             </div>
           ))}
-
-          {data.map((purchase) => (
+          {/* {data.map((purchase) => (
             <div key={purchase.member_id} className={s.wards_detail_links}>
               <Link href={`/Plan/${purchase.member_id}`}>
                 Индивидуальный план
@@ -85,6 +92,45 @@ const WardsDetail = () => {
                 <Image src={"/tick.png"} width={17} height={17} alt="tick" />
               </a>
             </div>
+          ))} */}
+          {data.map((purchase) => (
+            <Collapse accordion expandIconPosition="right">
+              <Collapse.Panel
+                header="Индивидуальный план"
+                key="1"
+                className={s.wards_detail_Collapse}
+              >
+                <PlanComponets id={purchase.member_id} />
+              </Collapse.Panel>
+              <Collapse.Panel
+                header="Аналитика"
+                key="2"
+                className={s.wards_detail_Collapse}
+              >
+                <AnalyticsComponets id={purchase.member_id} />
+              </Collapse.Panel>
+              <Collapse.Panel
+                header="Анкета"
+                key="3"
+                className={s.wards_detail_Collapse}
+              >
+                <QuestionnaireComponets id={purchase.member_id} />
+              </Collapse.Panel>
+              <Collapse.Panel
+                header={
+                  <a
+                    className={s.collapse_link}
+                    href={purchase.chat_id}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Перейти в чат
+                  </a>
+                }
+                key="4"
+                className={s.wards_detail_Collapse}
+              ></Collapse.Panel>
+            </Collapse>
           ))}
         </>
       ) : (
@@ -92,6 +138,7 @@ const WardsDetail = () => {
           <NoInform text="empty" />
         </>
       )}
+      <ScrollToTopButton />
     </div>
   );
 };
