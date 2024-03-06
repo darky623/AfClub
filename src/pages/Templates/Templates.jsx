@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import NoInform from "../../shared/ui/NoInform";
 import DeletBtn from "../../shared/ui/DeletBtn";
+import { Collapse } from "antd";
 import {
   useGetTrainQuery,
   useCreateMethodMutation,
@@ -16,6 +17,7 @@ import {
 } from "../../redux/api";
 import Loader from "../../shared/ui/Loader";
 import UiModal from "../../shared/ui/UiModal";
+import TemplateDetailComponets from "../../components/TemplateDetailComponets/TemplateDetailComponets";
 
 const Templates = () => {
   const [loading, setLoading] = useState(true);
@@ -189,72 +191,165 @@ const Templates = () => {
           <p>Вы уверены, что хотите удалить метод?</p>
         </UiModal>
       </div>
+
       <div className={s.templates_transitions}>
-        {data.length !== 0 ? (
-          data[0].map((templates) => (
-            <div className={s.wrapper__link} key={templates.method_id}>
-              <div className={s.wraper__DeletBtn}>
-                <DeletBtn
-                  onClick={() => {
-                    setIsOpenDeleteExercise(true);
-                    setNewMethodId(templates.method_id);
-                  }}
-                />
-              </div>
-              <div className={s.wraper__EditingBtn}>
-                <EditingBtn
-                  onClick={() => {
+        <Collapse accordion expandIconPosition="end">
+          {data.length !== 0 ? (
+            data[0].map((templates) => (
+              <Collapse.Panel
+                key={templates.method_id}
+                className={s.wrapper__link}
+                header={
+                  <div className={s.panelHeader}>
+                    {templates.title}
+                    <div className={s.wraper__DeletBtn}>
+                      <DeletBtn
+                        onClick={() => {
+                          setIsOpenDeleteExercise(true);
+                          setNewMethodId(templates.method_id);
+                        }}
+                      />
+                    </div>
+                    <div className={s.wraper__EditingBtn}>
+                      <EditingBtn
+                        onClick={() => {
+                          setModalStates((prevState) => ({
+                            ...prevState,
+                            [templates.method_id]: true,
+                          }));
+                          setNewMethodId(templates.method_id);
+                        }}
+                      />
+                    </div>
+                  </div>
+                }
+              >
+                <TemplateDetailComponets id={templates.method_id} />
+                {/* <div className={s.wraper__DeletBtn}>
+                  <DeletBtn
+                    onClick={() => {
+                      setIsOpenDeleteExercise(true);
+                      setNewMethodId(templates.method_id);
+                    }}
+                  />
+                </div>
+                <div className={s.wraper__EditingBtn}>
+                  <EditingBtn
+                    onClick={() => {
+                      setModalStates((prevState) => ({
+                        ...prevState,
+                        [templates.method_id]: true,
+                      }));
+                      setNewMethodId(templates.method_id);
+                    }}
+                  />
+                </div> */}
+                {/* <Link href={`/TemplateDetail/${templates.method_id}`}>
+                  {templates.title}
+                  <Image src={"/tick.png"} width={17} height={17} alt="tick" />
+                </Link> */}
+
+                <UiModal
+                  nameModal={"Изменение название методики"}
+                  handleOk={() => {
+                    sendEditNewMethod();
                     setModalStates((prevState) => ({
                       ...prevState,
-                      [templates.method_id]: true,
+                      [templates.method_id]: false,
                     }));
-                    setNewMethodId(templates.method_id);
                   }}
-                />
-              </div>
-              <Link href={`/TemplateDetail/${templates.method_id}`}>
-                {templates.title}
-                <Image src={"/tick.png"} width={17} height={17} alt="tick" />
-              </Link>
-              <UiModal
-                nameModal={"Изменение название методики"}
-                handleOk={() => {
-                  sendEditNewMethod();
-                  setModalStates((prevState) => ({
-                    ...prevState,
-                    [templates.method_id]: false,
-                  }));
-                }}
-                handleCancel={() => {
-                  setModalStates((prevState) => ({
-                    ...prevState,
-                    [templates.method_id]: false,
-                  }));
-                }}
-                isModalOpen={modalStates[templates.method_id]}
-              >
-                <input
-                  type="text"
-                  placeholder="Напишите название новой методики"
-                  maxLength={25}
-                  value={newMethodName}
-                  onChange={(e) => {
-                    setNewMethodName(e.target.value);
+                  handleCancel={() => {
+                    setModalStates((prevState) => ({
+                      ...prevState,
+                      [templates.method_id]: false,
+                    }));
                   }}
-                />
-                <input
-                  type="text"
-                  placeholder="Напишите описание метода"
-                  maxLength={120}
-                  value={methodDescription}
-                  onChange={(e) => setMethodDescription(e.target.value)}
-                />
-              </UiModal>
-            </div>
-          ))
-        ) : (
-          <NoInform text="empty" />
-        )}
+                  isModalOpen={modalStates[templates.method_id]}
+                >
+                  <input
+                    type="text"
+                    placeholder="Напишите название новой методики"
+                    maxLength={25}
+                    value={newMethodName}
+                    onChange={(e) => {
+                      setNewMethodName(e.target.value);
+                    }}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Напишите описание метода"
+                    maxLength={120}
+                    value={methodDescription}
+                    onChange={(e) => setMethodDescription(e.target.value)}
+                  />
+                </UiModal>
+              </Collapse.Panel>
+
+              // <div className={s.wrapper__link} key={templates.method_id}>
+              //   <div className={s.wraper__DeletBtn}>
+              //     <DeletBtn
+              //       onClick={() => {
+              //         setIsOpenDeleteExercise(true);
+              //         setNewMethodId(templates.method_id);
+              //       }}
+              //     />
+              //   </div>
+              //   <div className={s.wraper__EditingBtn}>
+              //     <EditingBtn
+              //       onClick={() => {
+              //         setModalStates((prevState) => ({
+              //           ...prevState,
+              //           [templates.method_id]: true,
+              //         }));
+              //         setNewMethodId(templates.method_id);
+              //       }}
+              //     />
+              //   </div>
+              //   <Link href={`/TemplateDetail/${templates.method_id}`}>
+              //     {templates.title}
+              //     <Image src={"/tick.png"} width={17} height={17} alt="tick" />
+              //   </Link>
+
+              //   <UiModal
+              //     nameModal={"Изменение название методики"}
+              //     handleOk={() => {
+              //       sendEditNewMethod();
+              //       setModalStates((prevState) => ({
+              //         ...prevState,
+              //         [templates.method_id]: false,
+              //       }));
+              //     }}
+              //     handleCancel={() => {
+              //       setModalStates((prevState) => ({
+              //         ...prevState,
+              //         [templates.method_id]: false,
+              //       }));
+              //     }}
+              //     isModalOpen={modalStates[templates.method_id]}
+              //   >
+              //     <input
+              //       type="text"
+              //       placeholder="Напишите название новой методики"
+              //       maxLength={25}
+              //       value={newMethodName}
+              //       onChange={(e) => {
+              //         setNewMethodName(e.target.value);
+              //       }}
+              //     />
+              //     <input
+              //       type="text"
+              //       placeholder="Напишите описание метода"
+              //       maxLength={120}
+              //       value={methodDescription}
+              //       onChange={(e) => setMethodDescription(e.target.value)}
+              //     />
+              //   </UiModal>
+              // </div>
+            ))
+          ) : (
+            <NoInform text="empty" />
+          )}
+        </Collapse>
       </div>
     </div>
   );
