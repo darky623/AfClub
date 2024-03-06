@@ -12,6 +12,7 @@ import AnalyticsComponets from "../../components/AnalyticsComponets/AnalyticsCom
 import PlanComponets from "../../components/PlanComponets/PlanComponets";
 import QuestionnaireComponets from "../../components/QuestionnaireComponets/QuestionnaireComponets";
 import ScrollToTopButton from "../../shared/ui/ScrollToTopButton";
+import Templates from "../Templates/Templates";
 
 const WardsDetail = () => {
   const [token, setToken] = useState(null);
@@ -69,30 +70,6 @@ const WardsDetail = () => {
               </p>
             </div>
           ))}
-          {/* {data.map((purchase) => (
-            <div key={purchase.member_id} className={s.wards_detail_links}>
-              <Link href={`/Plan/${purchase.member_id}`}>
-                Индивидуальный план
-                <Image src={"/tick.png"} width={17} height={17} alt="tick" />
-              </Link>
-              <Link href={`/Analytics/${purchase.member_id}`}>
-                Аналитика
-                <Image src={"/tick.png"} width={17} height={17} alt="tick" />
-              </Link>
-              <Link href={`/Questionnaire/${purchase.member_id}`}>
-                Анкета
-                <Image src={"/tick.png"} width={17} height={17} alt="tick" />
-              </Link>
-              <a
-                href={purchase.chat_id}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Перейти в чат
-                <Image src={"/tick.png"} width={17} height={17} alt="tick" />
-              </a>
-            </div>
-          ))} */}
           {data.map((purchase) => (
             <Collapse accordion expandIconPosition="end">
               <Collapse.Panel
@@ -101,6 +78,13 @@ const WardsDetail = () => {
                 className={s.wards_detail_Collapse}
               >
                 <PlanComponets id={purchase.member_id} />
+              </Collapse.Panel>
+              <Collapse.Panel
+                header="Методики"
+                key="5"
+                className={s.wards_detail_Collapse}
+              >
+                <Templates />
               </Collapse.Panel>
               <Collapse.Panel
                 header="Аналитика"
