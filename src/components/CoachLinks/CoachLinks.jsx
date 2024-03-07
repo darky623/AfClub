@@ -30,10 +30,10 @@ const CoachLinks = ({ coachData, status = "expert" }) => {
           </Link>
         </>
       ) : null}
-      {/* <Link href={"/Templates/Templates"}>
+      <Link href={"/Templates/Templates"}>
         Методики
         <Image src={"/tick.png"} width={17} height={17} alt="tick" />
-      </Link> */}
+      </Link>
       {status === "expert" ? (
         <Link href={"/Finance/Finance"}>
           Финансы

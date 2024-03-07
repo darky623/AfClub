@@ -4,8 +4,6 @@ import BackLink from "../../components/BackLink/BackLink";
 import EditingBtn from "../../shared/ui/EditingBtn";
 import AddButton from "../../shared/ui/AddButton";
 import s from "./Templates.module.scss";
-import Image from "next/image";
-import Link from "next/link";
 import NoInform from "../../shared/ui/NoInform";
 import DeletBtn from "../../shared/ui/DeletBtn";
 import { Collapse } from "antd";
@@ -201,7 +199,7 @@ const Templates = () => {
                 className={s.wrapper__link}
                 header={
                   <div className={s.panelHeader}>
-                    {templates.title}
+                    <p className={s.panelHeader__title}>{templates.title}</p>
                     <div className={s.wraper__DeletBtn}>
                       <DeletBtn
                         onClick={() => {
@@ -225,29 +223,6 @@ const Templates = () => {
                 }
               >
                 <TemplateDetailComponets id={templates.method_id} />
-                {/* <div className={s.wraper__DeletBtn}>
-                  <DeletBtn
-                    onClick={() => {
-                      setIsOpenDeleteExercise(true);
-                      setNewMethodId(templates.method_id);
-                    }}
-                  />
-                </div>
-                <div className={s.wraper__EditingBtn}>
-                  <EditingBtn
-                    onClick={() => {
-                      setModalStates((prevState) => ({
-                        ...prevState,
-                        [templates.method_id]: true,
-                      }));
-                      setNewMethodId(templates.method_id);
-                    }}
-                  />
-                </div> */}
-                {/* <Link href={`/TemplateDetail/${templates.method_id}`}>
-                  {templates.title}
-                  <Image src={"/tick.png"} width={17} height={17} alt="tick" />
-                </Link> */}
 
                 <UiModal
                   nameModal={"Изменение название методики"}
@@ -284,67 +259,6 @@ const Templates = () => {
                   />
                 </UiModal>
               </Collapse.Panel>
-
-              // <div className={s.wrapper__link} key={templates.method_id}>
-              //   <div className={s.wraper__DeletBtn}>
-              //     <DeletBtn
-              //       onClick={() => {
-              //         setIsOpenDeleteExercise(true);
-              //         setNewMethodId(templates.method_id);
-              //       }}
-              //     />
-              //   </div>
-              //   <div className={s.wraper__EditingBtn}>
-              //     <EditingBtn
-              //       onClick={() => {
-              //         setModalStates((prevState) => ({
-              //           ...prevState,
-              //           [templates.method_id]: true,
-              //         }));
-              //         setNewMethodId(templates.method_id);
-              //       }}
-              //     />
-              //   </div>
-              //   <Link href={`/TemplateDetail/${templates.method_id}`}>
-              //     {templates.title}
-              //     <Image src={"/tick.png"} width={17} height={17} alt="tick" />
-              //   </Link>
-
-              //   <UiModal
-              //     nameModal={"Изменение название методики"}
-              //     handleOk={() => {
-              //       sendEditNewMethod();
-              //       setModalStates((prevState) => ({
-              //         ...prevState,
-              //         [templates.method_id]: false,
-              //       }));
-              //     }}
-              //     handleCancel={() => {
-              //       setModalStates((prevState) => ({
-              //         ...prevState,
-              //         [templates.method_id]: false,
-              //       }));
-              //     }}
-              //     isModalOpen={modalStates[templates.method_id]}
-              //   >
-              //     <input
-              //       type="text"
-              //       placeholder="Напишите название новой методики"
-              //       maxLength={25}
-              //       value={newMethodName}
-              //       onChange={(e) => {
-              //         setNewMethodName(e.target.value);
-              //       }}
-              //     />
-              //     <input
-              //       type="text"
-              //       placeholder="Напишите описание метода"
-              //       maxLength={120}
-              //       value={methodDescription}
-              //       onChange={(e) => setMethodDescription(e.target.value)}
-              //     />
-              //   </UiModal>
-              // </div>
             ))
           ) : (
             <NoInform text="empty" />

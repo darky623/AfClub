@@ -41,6 +41,9 @@
   right: 50px;
   top: 0px;
   z-index: 2;
+  @media (max-width: 380px) {
+    right: 20px;
+  }
 }
 
 .wraper__DeletBtn {
@@ -48,6 +51,9 @@
   right: 90px;
   top: 0px;
   z-index: 2;
+  @media (max-width: 380px) {
+    right: 50px;
+  }
 }
 
 .wrapper__link {
@@ -62,7 +68,17 @@
   line-height: normal;
   padding: 12px 13px;
   text-decoration: none;
-  // display: flex;
-  // justify-content: space-between;
   margin-bottom: 11px;
+}
+
+.panelHeader__title {
+  @media (max-width: 500px) {
+    width: 150px;
+  }
+  @media (max-width: 440px) {
+    width: 100px;
+  }
+  @media (max-width: 340px) {
+    width: 80px;
+  }
 }
