@@ -84,7 +84,7 @@ const WardsDetail = () => {
                 key="5"
                 className={s.wards_detail_Collapse}
               >
-                <Templates />
+                <Templates main={false} />
               </Collapse.Panel>
               <Collapse.Panel
                 header="Аналитика"

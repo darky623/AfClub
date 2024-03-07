@@ -17,7 +17,7 @@ import Loader from "../../shared/ui/Loader";
 import UiModal from "../../shared/ui/UiModal";
 import TemplateDetailComponets from "../../components/TemplateDetailComponets/TemplateDetailComponets";
 
-const Templates = () => {
+const Templates = ({ main = true }) => {
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenDeleteExercise, setIsOpenDeleteExercise] = useState(false);
@@ -139,7 +139,7 @@ const Templates = () => {
   }
 
   return (
-    <div className={s.templates}>
+    <div className={s.templates} style={main ? {} : { padding: 0 }}>
       <div className={s.templates_shared}>
         <BackLink menuTitle="Меню" currentPage="Методики" />
         <AddButton
