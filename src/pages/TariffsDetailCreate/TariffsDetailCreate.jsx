@@ -11,7 +11,7 @@ import EditingBtn from "../../shared/ui/EditingBtn";
 
 const TariffsDetailCreate = () => {
   const router = useRouter();
-  const options = ["long", "short", "speech"];
+  const options = ["Ведение", "Короткая", "Выступление"];
   const [token, setToken] = useState(null);
   const isBrowser = typeof window !== "undefined";
 
@@ -35,7 +35,15 @@ const TariffsDetailCreate = () => {
   });
 
   const handleSelectChange = (selectedValue) => {
-    setCreateData({ ...createData, type: selectedValue });
+    let selected = "";
+    const selectedMap = {
+      Ведение: "long",
+      Короткая: "short",
+      Выступление: "speech",
+    };
+
+    selected = selectedMap[selectedValue] || "";
+    setCreateData({ ...createData, type: selected });
   };
   const handleOk = (type) => {
     setModalState({ ...modalState, [type]: false });
@@ -159,11 +167,13 @@ const TariffsDetailCreate = () => {
               <input
                 type="number"
                 placeholder="Напишите стоимость услуги"
+                min={0}
                 max={9999999999}
                 value={createData.price}
-                onChange={(e) =>
-                  setCreateData({ ...createData, price: e.target.value })
-                }
+                onChange={(e) => {
+                  const value = Math.max(0, parseInt(e.target.value));
+                  setCreateData({ ...createData, price: value });
+                }}
               />
             </UiModal>
           ) : null}

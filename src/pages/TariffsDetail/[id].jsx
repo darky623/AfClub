@@ -17,7 +17,7 @@ const TariffsDetail = () => {
 
   const { id } = router.query;
 
-  const options = ["long", "short", "speech"];
+  const options = ["Ведение", "Короткая", "Выступление"];
 
   const [editService] = useEditServicesMutation();
 
@@ -54,7 +54,15 @@ const TariffsDetail = () => {
   }, [resultData]);
 
   const handleSelectChange = (selectedValue) => {
-    setEditData({ ...editData, type: selectedValue });
+    let selected = "";
+    const selectedMap = {
+      Ведение: "long",
+      Короткая: "short",
+      Выступление: "speech",
+    };
+
+    selected = selectedMap[selectedValue] || "";
+    setEditData({ ...editData, type: selected });
   };
   const handleOk = (type) => {
     setModalState({ ...modalState, [type]: false });
@@ -187,13 +195,13 @@ const TariffsDetail = () => {
             >
               <input
                 type="number"
+                min={0}
                 max={999999}
                 placeholder="Напишите стоимость услуги"
                 value={editData.price}
                 onChange={(e) => {
-                  const inputValue = Number(e.target.value);
-                  const clampedValue = Math.min(inputValue, 999999);
-                  setEditData({ ...editData, price: clampedValue });
+                  const value = Math.max(0, parseInt(e.target.value));
+                  setEditData({ ...editData, price: value });
                 }}
               />
             </UiModal>

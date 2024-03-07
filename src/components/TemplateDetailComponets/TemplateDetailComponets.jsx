@@ -1,6 +1,6 @@
 import React from "react";
 import { toast } from "react-toastify";
-import BackLink from "../../components/BackLink/BackLink";
+import BackLink from "../BackLink/BackLink";
 import UiModal from "../../shared/ui/UiModal";
 import AddButton from "../../shared/ui/AddButton";
 import s from "./Template.module.scss";
@@ -25,9 +25,9 @@ import DeletBtn from "../../shared/ui/DeletBtn";
 import { Select, Space } from "antd";
 import UiButton from "../../shared/ui/UiButton";
 
-const TemplateDetail = () => {
+const TemplateDetailComponets = ({ id }) => {
   const router = useRouter();
-  const { id } = router.query;
+  // const { id } = router.query;
   const [trainingId, setTrainingId] = useState(null);
   const [exerciseId, setExerciseId] = useState(null);
   const [selectedOption, setSelectedOption] = useState("Выберите тренировку");
@@ -272,7 +272,7 @@ const TemplateDetail = () => {
 
   return (
     <div className={s.template_detail}>
-      <BackLink menuTitle="Методики" currentPage="Программы" />
+      {/* <BackLink menuTitle="Методики" currentPage="Программы" /> */}
 
       {data.map((titles) => (
         <div key={titles.title}>
@@ -689,4 +689,4 @@ const TemplateDetail = () => {
   );
 };
 
-export default TemplateDetail;
+export default TemplateDetailComponets;

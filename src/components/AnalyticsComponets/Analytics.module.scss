@@ -1,0 +1,77 @@
+.analytics {
+  padding: 0 20px;
+  .analytics_date {
+    margin-top: 19px;
+    span {
+      color: #000;
+      font-family: "Gilroy", sans-serif;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 300;
+      line-height: normal;
+      margin-right: 8px;
+      opacity: 0.5;
+    }
+    .analytics_date_title {
+      margin: 0 10px;
+    }
+  }
+  .analitycs_links {
+    margin: 15px 0 18px 0;
+  }
+  .analitycs_report {
+    width: 100%;
+    height: 30vh;
+    border-radius: 10px 10px 0px 0px;
+    // background: #f2f2f2;
+    h3 {
+      color: #000;
+      font-family: "Gilroy", sans-serif;
+      font-size: 48px;
+      font-style: normal;
+      font-weight: 800;
+      line-height: normal;
+      opacity: 0.1;
+      text-align: center;
+      padding-top: 122px;
+    }
+  }
+  .analitycs_report_received {
+    width: 100%;
+    img {
+      border-radius: 10px;
+      width: 100%;
+      object-fit: contain;
+    }
+  }
+  .analitycs_report_received_pdf {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    a {
+      padding: 20px;
+    }
+    embed {
+      width: 100%;
+      height: 30vh;
+    }
+  }
+}
+
+.mob {
+  display: none;
+  @media (max-width: 768px) {
+    display: block;
+  }
+}
+
+.pc {
+  display: block;
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.analitycs_btn {
+  position: relative;
+}
