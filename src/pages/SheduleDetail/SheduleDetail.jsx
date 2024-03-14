@@ -96,7 +96,7 @@ const SheduleDetail = () => {
       <div className={s.schedule_detail_beginning}>
         <DatePicker
           className="schedule_detail_beginning_picker"
-          showTime
+          showTime={{ minuteStep: 10 }}
           format="DD.MM.YYYY  в  HH:mm"
           inputReadOnly
           value={startDate}
@@ -111,7 +111,7 @@ const SheduleDetail = () => {
           onChange={handleEndDateChange}
           open={openEndDatePicker}
           onOpenChange={(status) => setOpenEndDatePicker(status)}
-          showTime
+          showTime={{ minuteStep: 10 }}
           format="DD.MM.YYYY  в  HH:mm"
           inputReadOnly
         />
