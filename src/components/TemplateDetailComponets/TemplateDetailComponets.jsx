@@ -369,22 +369,22 @@ const TemplateDetailComponets = ({ id }) => {
               handleSelectChangeEx(value), setExerciseName(value);
             }}
           >
-            {dropDown && (
-              <Select.Option value={""}>
-                <p onClick={() => setMusleFun(true)}>
-                  <span>
-                    <Image
-                      src={paint}
-                      alt="paint"
-                      width={12}
-                      height={12}
-                      style={{ marginRight: "6px" }}
-                    />
-                    Свое yпражнение
-                  </span>
-                </p>
-              </Select.Option>
-            )}
+            {/* {dropDown && ( */}
+            <Select.Option value={""}>
+              <p onClick={() => setMusleFun(true)}>
+                <span>
+                  <Image
+                    src={paint}
+                    alt="paint"
+                    width={12}
+                    height={12}
+                    style={{ marginRight: "6px" }}
+                  />
+                  Свое yпражнение
+                </span>
+              </p>
+            </Select.Option>
+            {/* )} */}
             {resultExercises === undefined
               ? null
               : resultExercises[0]?.map((result) =>
@@ -480,22 +480,22 @@ const TemplateDetailComponets = ({ id }) => {
               handleSelectChangeEx(value), setExerciseName(value);
             }}
           >
-            {dropDown && (
-              <Select.Option value={""}>
-                <p onClick={() => setMusleFun(true)}>
-                  <span>
-                    <Image
-                      src={paint}
-                      alt="paint"
-                      width={12}
-                      height={12}
-                      style={{ marginRight: "6px" }}
-                    />
-                    Cвое yпражнение
-                  </span>
-                </p>
-              </Select.Option>
-            )}
+            {/* {dropDown && ( */}
+            <Select.Option value={""}>
+              <p onClick={() => setMusleFun(true)}>
+                <span>
+                  <Image
+                    src={paint}
+                    alt="paint"
+                    width={12}
+                    height={12}
+                    style={{ marginRight: "6px" }}
+                  />
+                  Cвое yпражнение
+                </span>
+              </p>
+            </Select.Option>
+            {/* )} */}
             {resultExercises === undefined
               ? null
               : resultExercises[0]?.map((result) =>
