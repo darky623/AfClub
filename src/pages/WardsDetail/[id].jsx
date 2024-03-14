@@ -71,7 +71,7 @@ const WardsDetail = () => {
             </div>
           ))}
           {data.map((purchase) => (
-            <Collapse accordion expandIconPosition="end">
+            <Collapse accordion={false} expandIconPosition="end">
               <Collapse.Panel
                 header="Индивидуальный план"
                 key="1"
