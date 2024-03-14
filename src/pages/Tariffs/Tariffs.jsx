@@ -10,7 +10,7 @@ import EditingBtn from "../../shared/ui/EditingBtn";
 
 const Tariffs = () => {
   const router = useRouter();
-  const [token, setToken ] = useState(null)
+  const [token, setToken] = useState(null);
 
   const handleEditClick = (id) => {
     router.push(`/TariffsDetail/${id}`);
@@ -19,20 +19,24 @@ const Tariffs = () => {
     router.push(`/TariffsDetailCreate/TariffsDetailCreate`);
   };
 
-  const { data: resultData, isError, refetch } = useGetServicesQuery(token, {
+  const {
+    data: resultData,
+    isError,
+    refetch,
+  } = useGetServicesQuery(token, {
     skip: !token,
   });
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  useEffect(()=>{
-    setToken(localStorage.getItem("token"))
-  }, [])
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+  }, []);
 
   useEffect(() => {
     if (resultData) {
-      refetch()
+      refetch();
       setData(resultData);
       setLoading(false);
     }
@@ -53,24 +57,24 @@ const Tariffs = () => {
         <AddButton onClick={() => handleCreateClick()} />
       </div>
       <div className={s.tariffs_cards}>
-        {data.length !== 0 ? (
-          data.map((services) => (
-            <div key={services.service_id} className={s.tariffs_card}>
-              <div className={s.tariffs_card_desc}>
-                <h3>{services.title}</h3>
-                <p>{services.description}</p>
-                <h4>
-                  Стоимость: <span>{services.price} ₽</span>
-                </h4>
+        {data.length !== 0
+          ? data.map((services) => (
+              <div key={services.service_id} className={s.tariffs_card}>
+                <div className={s.tariffs_card_desc}>
+                  <h3>{services.title}</h3>
+                  <p>{services.description}</p>
+                  <h4>
+                    Стоимость: <span>{services.price} ₽</span>
+                  </h4>
+                </div>
+                <div className={s.tariffs_card_btn}>
+                  <EditingBtn
+                    onClick={() => handleEditClick(services.service_id)}
+                  />
+                </div>
               </div>
-              <div className={s.tariffs_card_btn}>
-              <EditingBtn onClick={() => handleEditClick(services.service_id)}/>
-              </div>
-            </div>
-          ))
-        ) : (
-          <NoInform text="empty" />
-        )}
+            ))
+          : null}
       </div>
     </div>
   );

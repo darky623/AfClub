@@ -8,12 +8,16 @@ import UiModal from "../../shared/ui/UiModal";
 import { useCreateServicesMutation } from "../../redux/api";
 import { useRouter } from "next/router";
 import EditingBtn from "../../shared/ui/EditingBtn";
+import { Input } from "antd";
+
+const { TextArea } = Input;
 
 const TariffsDetailCreate = () => {
   const router = useRouter();
   const options = ["Ведение", "Короткая", "Выступление"];
   const [token, setToken] = useState(null);
   const isBrowser = typeof window !== "undefined";
+  const [focused, setFocused] = useState(false);
 
   const [createService] = useCreateServicesMutation();
 
@@ -86,6 +90,18 @@ const TariffsDetailCreate = () => {
         <div className={s.tarrifs_detail_informations_name}>
           <p>
             <span>Название:</span>{" "}
+          </p>
+          <input
+            type="text"
+            placeholder="Напишите название услуги"
+            maxLength={100}
+            value={createData.title}
+            onChange={(e) =>
+              setCreateData({ ...createData, title: e.target.value })
+            }
+          />
+          {/* <p>
+            <span>Название:</span>{" "}
             {createData.title ? (
               createData.title
             ) : (
@@ -105,17 +121,40 @@ const TariffsDetailCreate = () => {
               <input
                 type="text"
                 placeholder="Напишите название услуги"
-                maxLength={25}
+                maxLength={100}
                 value={createData.title}
                 onChange={(e) =>
                   setCreateData({ ...createData, title: e.target.value })
                 }
               />
             </UiModal>
-          ) : null}
+          ) : null} */}
         </div>
         <div className={s.tarrifs_detail_informations_desc}>
           <p>
+            <span>Описание:</span>
+          </p>
+          <TextArea
+            showCount
+            maxLength={250}
+            value={createData.description}
+            onChange={(e) =>
+              setCreateData({ ...createData, description: e.target.value })
+            }
+            placeholder="Напишите название услуги"
+            style={{
+              height: 120,
+              resize: "none",
+              border: "solid 1px #000",
+              marginLeft: "10px",
+            }}
+            className={`${focused ? s.textareaFocused : null} ${
+              s.textareaHovered
+            }`}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+          />
+          {/* <p>
             <span>Описание:</span>{" "}
             {createData.description ? (
               createData.description
@@ -133,20 +172,45 @@ const TariffsDetailCreate = () => {
               handleCancel={() => handleCancel("description")}
               isModalOpen={modalState.description}
             >
-              <input
-                type="text"
-                placeholder="Напишите описание услуги"
+              <TextArea
+                showCount
                 maxLength={250}
                 value={createData.description}
                 onChange={(e) =>
                   setCreateData({ ...createData, description: e.target.value })
                 }
+                placeholder="Напишите название услуги"
+                style={{
+                  height: 120,
+                  resize: "none",
+                  border: "solid 1px #000",
+                }}
+                className={`${focused ? s.textareaFocused : null} ${
+                  s.textareaHovered
+                }`}
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}
               />
             </UiModal>
-          ) : null}
+          ) : null} */}
         </div>
         <div className={s.tarrifs_detail_informations_price}>
           <p>
+            <span>Стоимость:</span>
+          </p>
+          <input
+            type="number"
+            placeholder="Напишите стоимость услуги"
+            min={0}
+            max={9999999999}
+            value={createData.price}
+            onChange={(e) => {
+              const value = Math.max(0, parseInt(e.target.value));
+              setCreateData({ ...createData, price: value });
+            }}
+          />
+
+          {/* <p>
             <span>Стоимость:</span>{" "}
             {createData.price ? (
               createData.price + " ₽"
@@ -176,7 +240,7 @@ const TariffsDetailCreate = () => {
                 }}
               />
             </UiModal>
-          ) : null}
+          ) : null} */}
         </div>
       </div>
       <SaveBtn nameBtn={"Добавить"} onClick={sendEditMethod} />
