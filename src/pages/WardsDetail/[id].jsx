@@ -50,7 +50,7 @@ const WardsDetail = () => {
   if (loading) {
     return <Loader />;
   }
-  console.log(data);
+
   return (
     <div className={s.wards_detail}>
       <BackLink menuTitle="Покупки" currentPage="Консультация 23.10" />
@@ -71,7 +71,11 @@ const WardsDetail = () => {
             </div>
           ))}
           {data.map((purchase) => (
-            <Collapse accordion={false} expandIconPosition="end">
+            <Collapse
+              accordion={false}
+              expandIconPosition="end"
+              key={purchase.member_id}
+            >
               <Collapse.Panel
                 header="Индивидуальный план"
                 key="1"
