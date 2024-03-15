@@ -95,6 +95,7 @@ const SheduleDetail = () => {
       <h3>Начало</h3>
       <div className={s.schedule_detail_beginning}>
         <DatePicker
+          popupClassName="startDatePicker"
           className="schedule_detail_beginning_picker"
           showTime={{ minuteStep: 10 }}
           format="DD.MM.YYYY  в  HH:mm"
@@ -106,6 +107,7 @@ const SheduleDetail = () => {
       <h3>Завершение</h3>
       <div className={s.schedule_detail_complete}>
         <DatePicker
+          popupClassName="endDatePicker"
           className="schedule_detail_beginning_picker"
           value={endDate}
           onChange={handleEndDateChange}
