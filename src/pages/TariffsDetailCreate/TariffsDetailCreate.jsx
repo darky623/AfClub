@@ -109,7 +109,7 @@ const TariffsDetailCreate = () => {
           </p>
           <textarea
             type="text"
-            placeholder="Напишите название услуги"
+            placeholder="Описание услуги"
             maxLength={100}
             value={createData.description}
             onChange={(e) =>

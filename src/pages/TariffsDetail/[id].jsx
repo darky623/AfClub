@@ -136,7 +136,7 @@ const TariffsDetail = () => {
           </p>
           <textarea
             type="text"
-            placeholder="Напишите описание услуги"
+            placeholder="Описание услуги"
             maxLength={250}
             value={editData.description}
             onChange={(e) =>
