@@ -107,7 +107,16 @@ const TariffsDetailCreate = () => {
           <p>
             <span>Описание:</span>
           </p>
-          <TextArea
+          <textarea
+            type="text"
+            placeholder="Напишите название услуги"
+            maxLength={100}
+            value={createData.description}
+            onChange={(e) =>
+              setCreateData({ ...createData, description: e.target.value })
+            }
+          />
+          {/* <TextArea
             maxLength={250}
             value={createData.description}
             onChange={(e) =>
@@ -125,7 +134,7 @@ const TariffsDetailCreate = () => {
             } textarea-placeholder`}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
-          />
+          /> */}
         </div>
         <div className={s.tarrifs_detail_informations_price}>
           <p>
