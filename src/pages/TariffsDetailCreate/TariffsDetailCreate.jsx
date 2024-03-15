@@ -82,6 +82,8 @@ const TariffsDetailCreate = () => {
       <div className={s.tarrifs_detail_informations}>
         <div className={s.tarrifs_detail_informations_type}>
           <UiSelect
+            tariffs={true}
+            title="Тип услуги "
             type={"Короткая"}
             options={options}
             onSelectChange={handleSelectChange}

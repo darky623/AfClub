@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import s from "./ExpertDesc.module.scss";
 import BackLink from "../../components/BackLink/BackLink";
-// import Image from "next/image";
 import { useRouter } from "next/router";
 import { useGetExpertClientsQuery } from "../../redux/api";
 import NoInform from "../../shared/ui/NoInform";

@@ -55,11 +55,11 @@
       margin-bottom: 10px;
 
       textarea::placeholder {
-        color: rgba(0, 0, 0, 0.4) !important;
-        font-family: "Gilroy", sans-serif !important;
+        color: inherit !important;
+        font: inherit !important;
         font-size: 16px !important;
         font-style: normal !important;
-        font-weight: 800 !important;
+        font-weight: 400 !important;
       }
 
       p {
