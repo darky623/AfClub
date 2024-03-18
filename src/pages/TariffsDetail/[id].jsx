@@ -143,26 +143,6 @@ const TariffsDetail = () => {
               setEditData({ ...editData, description: e.target.value })
             }
           />
-          {/* <TextArea
-            // showCount
-            maxLength={250}
-            value={editData.description}
-            onChange={(e) =>
-              setEditData({ ...editData, description: e.target.value })
-            }
-            placeholder="Описание услуги"
-            style={{
-              height: 120,
-              resize: "none",
-              border: "solid 1px #000",
-              marginLeft: "10px",
-            }}
-            className={`${focused ? s.textareaFocused : null} ${
-              s.textareaHovered
-            } textarea-placeholder`}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
-          /> */}
         </div>
         <div className={s.tarrifs_detail_informations_price}>
           <p>

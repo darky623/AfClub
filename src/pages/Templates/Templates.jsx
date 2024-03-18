@@ -161,7 +161,7 @@ const Templates = ({ main = true }) => {
           <input
             type="text"
             placeholder="Напишите название новой методики"
-            maxLength={25}
+            maxLength={100}
             value={methodName}
             onChange={(e) => setMethodName(e.target.value)}
           />
@@ -169,7 +169,7 @@ const Templates = ({ main = true }) => {
           <input
             type="text"
             placeholder="Напишите описание метода"
-            maxLength={120}
+            maxLength={250}
             value={methodDescription}
             onChange={(e) => setMethodDescription(e.target.value)}
           />
@@ -244,7 +244,7 @@ const Templates = ({ main = true }) => {
                   <input
                     type="text"
                     placeholder="Напишите название новой методики"
-                    maxLength={25}
+                    maxLength={100}
                     value={newMethodName}
                     onChange={(e) => {
                       setNewMethodName(e.target.value);
@@ -253,7 +253,7 @@ const Templates = ({ main = true }) => {
                   <input
                     type="text"
                     placeholder="Напишите описание метода"
-                    maxLength={120}
+                    maxLength={250}
                     value={methodDescription}
                     onChange={(e) => setMethodDescription(e.target.value)}
                   />
