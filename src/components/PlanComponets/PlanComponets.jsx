@@ -156,7 +156,7 @@ const PlanComponets = ({ id }) => {
                     <input
                       type="text"
                       placeholder="Напишите цель"
-                      maxLength="25"
+                      maxLength="100"
                       value={createData.target}
                       onChange={(e) =>
                         setCreateData({ ...createData, target: e.target.value })
@@ -212,7 +212,7 @@ const PlanComponets = ({ id }) => {
                   >
                     <input
                       type="text"
-                      maxLength="50"
+                      maxLength="250"
                       placeholder="Напишите план силовых тренировок"
                       value={createData.power_plan}
                       onChange={(e) =>
@@ -274,7 +274,7 @@ const PlanComponets = ({ id }) => {
                       type="text"
                       placeholder="Напишите план кардио-тренировок"
                       value={createData.cardio_plan}
-                      maxLength="50"
+                      maxLength="250"
                       onChange={(e) =>
                         setCreateData({
                           ...createData,
@@ -333,7 +333,7 @@ const PlanComponets = ({ id }) => {
                     <input
                       type="text"
                       placeholder="Напишите план по питанию"
-                      maxLength="75"
+                      maxLength="250"
                       value={createData.feed_plan}
                       onChange={(e) =>
                         setCreateData({
@@ -392,7 +392,7 @@ const PlanComponets = ({ id }) => {
                     <input
                       type="text"
                       placeholder="Напишите план по восстонавлению"
-                      maxLength="75"
+                      maxLength="250"
                       value={createData.recovery_plan}
                       onChange={(e) =>
                         setCreateData({

@@ -15,6 +15,7 @@ import {
   useEditExerciseMutation,
   useDeleteExerciseMutation,
   useGetExercisesQuery,
+  useIndexExerciseMutation,
 } from "../../redux/api";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -54,7 +55,8 @@ const TemplateDetailComponets = ({ id }) => {
   const [approaches, setApproaches] = useState("");
   const [musle, setMusle] = useState("");
   const [musleFunc, setMusleFun] = useState(false);
-  const [dropDown, setDropDown] = useState(false);
+  const [currentId, setCurrentId] = useState(null);
+  const [updatedListProgram, setUpdatedListProgram] = useState([]);
 
   const [token, setToken] = useState(null);
 
@@ -86,6 +88,39 @@ const TemplateDetailComponets = ({ id }) => {
   const [createExercise] = useCreateExerciseMutation();
   const [editExercise] = useEditExerciseMutation();
   const [deleteExercise] = useDeleteExerciseMutation();
+  const [indexExerciseMutation] = useIndexExerciseMutation();
+
+  ///////////////////////////////////drag&drop//////////////////////////////////////////////
+  function dragStartHendler(e, exercis) {
+    setCurrentId(exercis.exercise_id);
+  }
+  function dragEndHendler(e) {
+    e.target.style.border = "none";
+  }
+  function dragOverHendler(e) {
+    e.preventDefault();
+    e.target.style.border = "2px solid red";
+  }
+
+  const dragHendler = async (e, exercis) => {
+    if (currentId !== exercis.exercise_id) {
+      try {
+        const response = await indexExerciseMutation({
+          token,
+          method_id: id,
+          training_id: trainingId,
+          exercise_id: exercis.exercise_id,
+          index: currentId,
+        });
+        setUpdatedListProgram(response);
+        refetch();
+        console.log(updatedListProgram);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   /* //////////////////////////////////Функция добавления тренировки//////////////////////////////// */
 
@@ -272,8 +307,6 @@ const TemplateDetailComponets = ({ id }) => {
 
   return (
     <div className={s.template_detail}>
-      {/* <BackLink menuTitle="Методики" currentPage="Программы" /> */}
-
       {data.map((titles) => (
         <div key={titles.title}>
           <h1>{titles.title}</h1>
@@ -369,7 +402,6 @@ const TemplateDetailComponets = ({ id }) => {
               handleSelectChangeEx(value), setExerciseName(value);
             }}
           >
-            {/* {dropDown && ( */}
             <Select.Option value={""}>
               <p onClick={() => setMusleFun(true)}>
                 <span>
@@ -384,17 +416,13 @@ const TemplateDetailComponets = ({ id }) => {
                 </span>
               </p>
             </Select.Option>
-            {/* )} */}
             {resultExercises === undefined
               ? null
               : resultExercises[0]?.map((result) =>
                   result.exs_type === exsTypeId
                     ? result.exercises.map((ex) => (
                         <Select.Option key={ex.index} value={ex}>
-                          <p
-                            onMouseEnter={() => setDropDown(true)}
-                            onClick={() => setMusleFun(false)}
-                          >
+                          <p onClick={() => setMusleFun(false)}>
                             <span>Упражнение: </span>
                             {ex}
                           </p>
@@ -431,7 +459,7 @@ const TemplateDetailComponets = ({ id }) => {
         <input
           type="text"
           placeholder="Комментарий"
-          maxLength={100}
+          maxLength={250}
           value={approaches}
           onChange={(e) => setApproaches(e.target.value)}
         />
@@ -480,7 +508,6 @@ const TemplateDetailComponets = ({ id }) => {
               handleSelectChangeEx(value), setExerciseName(value);
             }}
           >
-            {/* {dropDown && ( */}
             <Select.Option value={""}>
               <p onClick={() => setMusleFun(true)}>
                 <span>
@@ -495,17 +522,13 @@ const TemplateDetailComponets = ({ id }) => {
                 </span>
               </p>
             </Select.Option>
-            {/* )} */}
             {resultExercises === undefined
               ? null
               : resultExercises[0]?.map((result) =>
                   result.exs_type === exsTypeId
                     ? result.exercises.map((ex) => (
                         <Select.Option key={ex.index} value={ex}>
-                          <p
-                            onMouseEnter={() => setDropDown(true)}
-                            onClick={() => setMusleFun(false)}
-                          >
+                          <p onClick={() => setMusleFun(false)}>
                             <span>Упражнение: </span>
                             {ex}
                           </p>
@@ -542,7 +565,7 @@ const TemplateDetailComponets = ({ id }) => {
         <input
           type="text"
           placeholder="Комментарий"
-          maxLength={100}
+          maxLength={250}
           value={approaches}
           onChange={(e) => setApproaches(e.target.value)}
         />
@@ -643,35 +666,42 @@ const TemplateDetailComponets = ({ id }) => {
                       />
                     </div>
                     {training.exercises.map((exercis) => (
-                      <React.Fragment key={exercis.exercise_id}>
-                        <div className={s.template_detail_exercises}>
-                          <div className={s.template_detail_exercises_desc}>
-                            <h3>
-                              Группа мышц : <span>{exercis.type_title}</span>
-                            </h3>
-                            <h3>
-                              Название: <span>{exercis.title}</span>
-                            </h3>
-                            <h3>
-                              Комментарий : <span>{exercis.feel}</span>
-                            </h3>
-                          </div>
-                          <div className={s.template_detail_exercises_btns}>
-                            <EditingBtn
-                              onClick={() => {
-                                setIsOpenEditExercise(true),
-                                  setExerciseId(exercis.exercise_id);
-                              }}
-                            />
-                            <DeletBtn
-                              onClick={() => {
-                                setIsOpenDeleteExercise(true),
-                                  setExerciseId(exercis.exercise_id);
-                              }}
-                            />
-                          </div>
+                      <div
+                        className={s.template_detail_exercises}
+                        key={exercis.exercise_id}
+                        onDragStart={(e) => dragStartHendler(e, exercis)}
+                        onDragLeave={(e) => dragEndHendler(e)}
+                        onDragEnd={(e) => dragEndHendler(e)}
+                        onDragOver={(e) => dragOverHendler(e)}
+                        onDrop={(e) => dragHendler(e, exercis)}
+                        draggable={true}
+                      >
+                        <div className={s.template_detail_exercises_desc}>
+                          <h3>
+                            Группа мышц : <span>{exercis.type_title}</span>
+                          </h3>
+                          <h3>
+                            Название: <span>{exercis.title}</span>
+                          </h3>
+                          <h3>
+                            Комментарий : <span>{exercis.feel}</span>
+                          </h3>
                         </div>
-                      </React.Fragment>
+                        <div className={s.template_detail_exercises_btns}>
+                          <EditingBtn
+                            onClick={() => {
+                              setIsOpenEditExercise(true),
+                                setExerciseId(exercis.exercise_id);
+                            }}
+                          />
+                          <DeletBtn
+                            onClick={() => {
+                              setIsOpenDeleteExercise(true),
+                                setExerciseId(exercis.exercise_id);
+                            }}
+                          />
+                        </div>
+                      </div>
                     ))}
                   </React.Fragment>
                 ) : null

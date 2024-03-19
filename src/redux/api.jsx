@@ -236,6 +236,27 @@ export const api = createApi({
         body: formData,
       }),
     }),
+    EditExercise: builder.mutation({
+      query: ({
+        token,
+        formData,
+        method_id,
+        training_id,
+        exercise_id,
+        index,
+      }) => ({
+        url: `?func=EditExercise&method_id=${method_id}&training_id=${training_id}&exercise_id=${exercise_id}&token=${token}&index=${index}`,
+        method: "POST",
+        body: formData,
+      }),
+    }),
+    IndexExercise: builder.mutation({
+      query: ({ token, method_id, training_id, exercise_id, index }) => ({
+        url: `?func=IndexExercise&method_id=${method_id}&training_id=${training_id}&exercise_id=${exercise_id}&token=${token}`,
+        method: "POST",
+        body: { index },
+      }),
+    }),
   }),
 });
 
@@ -285,4 +306,5 @@ export const {
   useEditExerciseMutation,
   useDeleteExerciseMutation,
   useGetExercisesQuery,
+  useIndexExerciseMutation,
 } = api;
