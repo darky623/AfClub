@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { toast } from "react-toastify";
 import BackLink from "../BackLink/BackLink";
 import UiModal from "../../shared/ui/UiModal";
@@ -7,6 +7,7 @@ import s from "./Template.module.scss";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import paint from "../../../public/paint.svg";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import {
   useGetMethodQuery,
   useCreateExerciseMutation,
@@ -55,8 +56,9 @@ const TemplateDetailComponets = ({ id }) => {
   const [approaches, setApproaches] = useState("");
   const [musle, setMusle] = useState("");
   const [musleFunc, setMusleFun] = useState(false);
+  // const [exercises, setExercises] = useState(training.exercises);
   const [currentId, setCurrentId] = useState(null);
-  const [updatedListProgram, setUpdatedListProgram] = useState([]);
+  // const [updatedListProgram, setUpdatedListProgram] = useState([]);
 
   const [token, setToken] = useState(null);
 
@@ -90,35 +92,45 @@ const TemplateDetailComponets = ({ id }) => {
   const [deleteExercise] = useDeleteExerciseMutation();
   const [indexExerciseMutation] = useIndexExerciseMutation();
 
-  ///////////////////////////////////drag&drop//////////////////////////////////////////////
-  function dragStartHendler(e, exercis) {
-    setCurrentId(exercis.exercise_id);
-  }
-  function dragEndHendler(e) {
-    e.target.style.border = "none";
-  }
-  function dragOverHendler(e) {
-    e.preventDefault();
-    e.target.style.border = "2px solid red";
-  }
+  // ///////////////////////////////////drag&drop//////////////////////////////////////////////
 
-  const dragHendler = async (e, exercis) => {
-    if (currentId !== exercis.exercise_id) {
-      try {
-        const response = await indexExerciseMutation({
-          token,
-          method_id: id,
-          training_id: trainingId,
-          exercise_id: exercis.exercise_id,
-          index: currentId,
-        });
-        setUpdatedListProgram(response);
-        refetch();
-        console.log(updatedListProgram);
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
+  // const newList = async (e, exercise) => {
+  //   if (currentId !== exercise.exercise_id) {
+  //     try {
+  //       const response = await indexExerciseMutation({
+  //         token,
+  //         method_id: id,
+  //         training_id: trainingId,
+  //         exercise_id: exercise.exercise_id,
+  //         index: currentId,
+  //       });
+  //       setUpdatedListProgram(response);
+  //       refetch();
+  //       console.log(updatedListProgram);
+  //       console.log(data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  // };
+
+  const onDragEnd = async (result) => {
+    if (!result.destination) return;
+
+    const currentId = result.source.index;
+    const newIndex = result.destination.index;
+
+    try {
+      const response = await indexExerciseMutation({
+        token,
+        method_id: id,
+        training_id: trainingId,
+        exercise_id: currentId,
+        index: newIndex,
+      });
+      refetch();
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -665,44 +677,85 @@ const TemplateDetailComponets = ({ id }) => {
                         }}
                       />
                     </div>
-                    {training.exercises.map((exercis) => (
-                      <div
-                        className={s.template_detail_exercises}
-                        key={exercis.exercise_id}
-                        onDragStart={(e) => dragStartHendler(e, exercis)}
-                        onDragLeave={(e) => dragEndHendler(e)}
-                        onDragEnd={(e) => dragEndHendler(e)}
-                        onDragOver={(e) => dragOverHendler(e)}
-                        onDrop={(e) => dragHendler(e, exercis)}
-                        draggable={true}
-                      >
-                        <div className={s.template_detail_exercises_desc}>
-                          <h3>
-                            Группа мышц : <span>{exercis.type_title}</span>
-                          </h3>
-                          <h3>
-                            Название: <span>{exercis.title}</span>
-                          </h3>
-                          <h3>
-                            Комментарий : <span>{exercis.feel}</span>
-                          </h3>
-                        </div>
-                        <div className={s.template_detail_exercises_btns}>
-                          <EditingBtn
-                            onClick={() => {
-                              setIsOpenEditExercise(true),
-                                setExerciseId(exercis.exercise_id);
-                            }}
-                          />
-                          <DeletBtn
-                            onClick={() => {
-                              setIsOpenDeleteExercise(true),
-                                setExerciseId(exercis.exercise_id);
-                            }}
-                          />
-                        </div>
-                      </div>
-                    ))}
+                    <div className="container-draggable">
+                      <DragDropContext onDragEnd={onDragEnd}>
+                        <Droppable droppableId="exercises" key={training.title}>
+                          {(provided) => (
+                            <div
+                              {...provided.droppableProps}
+                              ref={provided.innerRef}
+                            >
+                              {training.exercises.map((exercise, index) => {
+                                return (
+                                  <Draggable
+                                    key={exercise.exercise_id}
+                                    draggableId={`${exercise.exercise_id}`}
+                                    index={index}
+                                  >
+                                    {(provided) => (
+                                      <div
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                        onClick={(event) => {
+                                          console.log(event);
+                                        }}
+                                        // className={`${
+                                        //   s.template_detail_exercises
+                                        // } ${isDragging ? "dragging" : ""}`}
+                                        className={s.template_detail_exercises}
+                                      >
+                                        <div
+                                          className={
+                                            s.template_detail_exercises_desc
+                                          }
+                                        >
+                                          <h3>
+                                            Группа мышц :{" "}
+                                            <span>{exercise.type_title}</span>
+                                          </h3>
+                                          <h3>
+                                            Название:{" "}
+                                            <span>{exercise.title}</span>
+                                          </h3>
+                                          <h3>
+                                            Комментарий :{" "}
+                                            <span>{exercise.feel}</span>
+                                          </h3>
+                                        </div>
+                                        <div
+                                          className={
+                                            s.template_detail_exercises_btns
+                                          }
+                                        >
+                                          <EditingBtn
+                                            onClick={() => {
+                                              setIsOpenEditExercise(true);
+                                              setExerciseId(
+                                                exercise.exercise_id
+                                              );
+                                            }}
+                                          />
+                                          <DeletBtn
+                                            onClick={() => {
+                                              setIsOpenDeleteExercise(true);
+                                              setExerciseId(
+                                                exercise.exercise_id
+                                              );
+                                            }}
+                                          />
+                                        </div>
+                                      </div>
+                                    )}
+                                  </Draggable>
+                                );
+                              })}
+                              {provided.placeholder}
+                            </div>
+                          )}
+                        </Droppable>
+                      </DragDropContext>
+                    </div>
                   </React.Fragment>
                 ) : null
               )}
