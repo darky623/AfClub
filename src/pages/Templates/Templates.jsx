@@ -141,7 +141,11 @@ const Templates = ({ main = true }) => {
   return (
     <div className={s.templates} style={main ? {} : { padding: 0 }}>
       <div className={s.templates_shared}>
-        <BackLink menuTitle="Меню" currentPage="Методики" />
+        {main ? (
+          <BackLink menuTitle="Меню" currentPage="Методики" />
+        ) : (
+          <div></div>
+        )}
         <AddButton
           onClick={() => {
             setIsOpen(true);
