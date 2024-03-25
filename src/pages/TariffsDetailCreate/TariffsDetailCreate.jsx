@@ -4,11 +4,10 @@ import s from "./TarrifsDetailCreate.module.scss";
 import BackLink from "../../components/BackLink/BackLink";
 import SaveBtn from "../../shared/ui/SaveBtn";
 import UiSelect from "../../shared/ui/UiSelect";
-import UiModal from "../../shared/ui/UiModal";
 import { useCreateServicesMutation } from "../../redux/api";
 import { useRouter } from "next/router";
-import EditingBtn from "../../shared/ui/EditingBtn";
 import { Input } from "antd";
+import TimeInput from "../../shared/ui/timeInput";
 
 const { TextArea } = Input;
 
@@ -32,10 +31,11 @@ const TariffsDetailCreate = () => {
   });
 
   const [createData, setCreateData] = useState({
+    duration: 0,
     title: "",
     description: "",
     price: "",
-    type: "",
+    type: "short",
   });
 
   const handleSelectChange = (selectedValue) => {
@@ -49,21 +49,9 @@ const TariffsDetailCreate = () => {
     selected = selectedMap[selectedValue] || "";
     setCreateData({ ...createData, type: selected });
   };
-  const handleOk = (type) => {
-    setModalState({ ...modalState, [type]: false });
-  };
-
-  const handleCancel = (type) => {
-    setModalState({ ...modalState, [type]: false });
-    setCreateData({ title: "", desc: "", price: "" });
-  };
-
-  const showModal = (type) => {
-    setModalState({ ...modalState, [type]: true });
-  };
 
   const sendEditMethod = async () => {
-    setCreateData({ title: "", desc: "", price: "" });
+    setCreateData({ title: "", desc: "", price: "", duration: 0 });
     try {
       await createService({
         token,
@@ -89,6 +77,21 @@ const TariffsDetailCreate = () => {
             onSelectChange={handleSelectChange}
           />
         </div>
+        {createData.type === "short" ? (
+          <div className={s.tarrifs_detail_informations_name}>
+            <p>
+              <span>Время:</span>{" "}
+            </p>
+            <div className={s.tarrifs_detail_time}>
+              <TimeInput
+                value={createData.duration}
+                onChange={(newValue) =>
+                  setCreateData({ ...createData, duration: newValue })
+                }
+              />
+            </div>
+          </div>
+        ) : null}
         <div className={s.tarrifs_detail_informations_name}>
           <p>
             <span>Название:</span>{" "}

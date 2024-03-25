@@ -257,6 +257,20 @@ export const api = createApi({
         body: { index },
       }),
     }),
+    ClosePurchase: builder.mutation({
+      query: ({ token, formData }) => ({
+        url: `?func=ClosePurchase&token=${token}`,
+        method: "POST",
+        body: formData,
+      }),
+    }),
+    DeleteService: builder.mutation({
+      query: ({ token, formData }) => ({
+        url: `?func=DeleteService&token=${token}`,
+        method: "POST",
+        body: formData,
+      }),
+    }),
   }),
 });
 
@@ -307,4 +321,6 @@ export const {
   useDeleteExerciseMutation,
   useGetExercisesQuery,
   useIndexExerciseMutation,
+  useClosePurchaseMutation,
+  useDeleteServiceMutation,
 } = api;
