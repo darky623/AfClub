@@ -271,6 +271,9 @@ export const api = createApi({
         body: formData,
       }),
     }),
+    ShortServices: builder.query({
+      query: (token) => `?func=ShortServices&token=${token}`,
+    }),
   }),
 });
 
@@ -323,4 +326,5 @@ export const {
   useIndexExerciseMutation,
   useClosePurchaseMutation,
   useDeleteServiceMutation,
+  useShortServicesQuery,
 } = api;

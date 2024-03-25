@@ -8,6 +8,7 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import {
   useCreateScheduleMutation,
+  useShortServicesQuery,
   useGetServicesQuery,
 } from "../../redux/api";
 import { useRouter } from "next/router";
@@ -25,7 +26,7 @@ const SheduleDetail = () => {
     setToken(localStorage.getItem("token"));
   }, []);
 
-  const { data: resultData, isError } = useGetServicesQuery(token, {
+  const { data: resultData, isError } = useShortServicesQuery(token, {
     skip: !token,
   });
 
