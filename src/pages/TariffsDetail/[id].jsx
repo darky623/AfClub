@@ -4,10 +4,8 @@ import { toast } from "react-toastify";
 import BackLink from "../../components/BackLink/BackLink";
 import SaveBtn from "../../shared/ui/SaveBtn";
 import UiSelect from "../../shared/ui/UiSelect";
-import UiModal from "../../shared/ui/UiModal";
 import { useEditServicesMutation, useGetServicesQuery } from "../../redux/api";
 import { useRouter } from "next/router";
-import EditingBtn from "../../shared/ui/EditingBtn";
 import { Input } from "antd";
 
 const { TextArea } = Input;
@@ -40,6 +38,7 @@ const TariffsDetail = () => {
   });
 
   const [editData, setEditData] = useState({
+    duration: 0,
     title: "",
     description: "",
     price: "",
@@ -68,21 +67,9 @@ const TariffsDetail = () => {
     selected = selectedMap[selectedValue] || "";
     setEditData({ ...editData, type: selected });
   };
-  const handleOk = (type) => {
-    setModalState({ ...modalState, [type]: false });
-  };
-
-  const handleCancel = (type) => {
-    setModalState({ ...modalState, [type]: false });
-    setEditData({ title: "", description: "", price: "" });
-  };
-
-  const showModal = (type) => {
-    setModalState({ ...modalState, [type]: true });
-  };
 
   const sendEditMethod = async () => {
-    setEditData({ title: "", description: "", price: "" });
+    setEditData({ title: "", description: "", price: "", duration: 0 });
     try {
       await editService({
         token,
@@ -105,6 +92,8 @@ const TariffsDetail = () => {
     );
   }
 
+  console.log(resultData);
+
   return (
     <div className={s.tarrifs_detail}>
       <BackLink menuTitle="Услуги" currentPage="Изменить" />
@@ -116,6 +105,21 @@ const TariffsDetail = () => {
             onSelectChange={handleSelectChange}
           />
         </div>
+        {editData.type === "short" ? (
+          <div className={s.tarrifs_detail_informations_name}>
+            <p>
+              <span>Время:</span>{" "}
+            </p>
+            <div className={s.tarrifs_detail_time}>
+              <TimeInput
+                value={editData.duration}
+                onChange={(newValue) =>
+                  setEditData({ ...editData, duration: newValue })
+                }
+              />
+            </div>
+          </div>
+        ) : null}
         <div className={s.tarrifs_detail_informations_name}>
           <p>
             <span>Название: </span>
