@@ -25,7 +25,11 @@ const SheduleDetail = () => {
     setToken(localStorage.getItem("token"));
   }, []);
 
-  const { data: resultData, isError } = useShortServicesQuery(token, {
+  const {
+    data: resultData,
+    isError,
+    refetch,
+  } = useShortServicesQuery(token, {
     skip: !token,
   });
 
@@ -49,7 +53,7 @@ const SheduleDetail = () => {
   // };
 
   const sendShedule = () => {
-    if (!selectValue) {
+    if (!selectValue || selectValue === "Выберите услугу") {
       toast.error("Выберите тип услуги пожалуйста");
       return;
     }
@@ -65,6 +69,7 @@ const SheduleDetail = () => {
       token,
       createData,
     });
+    refetch();
     router.back();
   };
 
