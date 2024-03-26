@@ -3,15 +3,21 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import BackLink from "../../components/BackLink/BackLink";
 import AddButton from "../../shared/ui/AddButton";
-import { useGetScheduleQuery } from "../../redux/api";
+import {
+  useGetScheduleQuery,
+  useDeleteScheduleMutation,
+} from "../../redux/api";
 import s from "./Schedule.module.scss";
 import Loader from "../../shared/ui/Loader";
 import NoInform from "../../shared/ui/NoInform";
+import UiModal from "../../shared/ui/UiModal";
 
 const Shchedule = () => {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [inOpen, setInOpen] = useState(false);
+  const [scheduleId, setScheduleId] = useState("");
 
   useEffect(() => {
     setToken(localStorage.getItem("token"));
@@ -39,6 +45,8 @@ const Shchedule = () => {
   } = useGetScheduleQuery(token, {
     skip: !token,
   });
+
+  const [deleteSchedule] = useDeleteScheduleMutation();
 
   const formatDate = (dateString) => {
     const months = [
@@ -79,6 +87,19 @@ const Shchedule = () => {
     isError ? setLoading(false) : null;
   }, [resultData, isError]);
 
+  const handleDeleteShchedule = async () => {
+    const formData = {
+      schedule_id: scheduleId,
+    };
+    try {
+      await deleteSchedule({ token, formData });
+      setInOpen(false);
+      refetch();
+    } catch (err) {
+      toast.error("Произошла ошибка. Пожалуйста, попробуйте еще раз.");
+    }
+  };
+
   if (isError) {
     return (
       <>
@@ -91,6 +112,8 @@ const Shchedule = () => {
   if (loading) {
     return <Loader />;
   }
+
+  console.log(resultData);
 
   return (
     <div className={s.schedule}>
@@ -140,7 +163,12 @@ const Shchedule = () => {
                   )}
                   {event.status !== "free" && (
                     <div className={s.wraper__DeletBtn}>
-                      <DeletBtn onClick={() => {}} />
+                      <DeletBtn
+                        onClick={() => {
+                          setInOpen(true);
+                          setScheduleId(event.id);
+                        }}
+                      />
                     </div>
                   )}
                 </div>
@@ -149,6 +177,14 @@ const Shchedule = () => {
           </div>
         ))}
       </div>
+      <UiModal
+        handleOk={() => handleDeleteShchedule()}
+        handleCancel={() => setInOpen(false)}
+        nameModal={"Удаление тренировки?"}
+        isModalOpen={inOpen}
+      >
+        <p>Вы уверены, что хотите удалить тренровку?</p>
+      </UiModal>
     </div>
   );
 };

@@ -274,6 +274,14 @@ export const api = createApi({
     ShortServices: builder.query({
       query: (token) => `?func=ShortServices&token=${token}`,
     }),
+
+    DeleteSchedule: builder.mutation({
+      query: ({ token, formData }) => ({
+        url: `?func=DeleteSchedule&token=${token}`,
+        method: "POST",
+        body: formData,
+      }),
+    }),
   }),
 });
 
@@ -327,4 +335,5 @@ export const {
   useClosePurchaseMutation,
   useDeleteServiceMutation,
   useShortServicesQuery,
+  useDeleteScheduleMutation,
 } = api;
