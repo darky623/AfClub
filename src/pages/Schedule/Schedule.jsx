@@ -129,13 +129,19 @@ const Shchedule = () => {
                     </span>{" "}
                     {event.title}
                   </p>
-                  {event.status !== "free" && (
+                  {event.status === "free" && (
                     <Image
+                      style={{ marginRight: 5 }}
                       src={"/tick.png"}
                       alt="Portrait"
                       width={8}
                       height={10}
                     />
+                  )}
+                  {event.status !== "free" && (
+                    <div className={s.wraper__DeletBtn}>
+                      <DeletBtn onClick={() => {}} />
+                    </div>
                   )}
                 </div>
               ))}
