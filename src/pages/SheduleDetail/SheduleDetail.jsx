@@ -36,10 +36,7 @@ const SheduleDetail = () => {
 
   useEffect(() => {
     setData(resultData);
-    if (startDate.isAfter(endDate)) {
-      setEndDate(startDate);
-    }
-  }, [startDate, endDate, resultData]);
+  }, [resultData]);
 
   const handleSelectChange = (value) => {
     setSelectValue(value);
