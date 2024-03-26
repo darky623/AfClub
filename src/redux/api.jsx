@@ -236,6 +236,52 @@ export const api = createApi({
         body: formData,
       }),
     }),
+    EditExercise: builder.mutation({
+      query: ({
+        token,
+        formData,
+        method_id,
+        training_id,
+        exercise_id,
+        index,
+      }) => ({
+        url: `?func=EditExercise&method_id=${method_id}&training_id=${training_id}&exercise_id=${exercise_id}&token=${token}&index=${index}`,
+        method: "POST",
+        body: formData,
+      }),
+    }),
+    IndexExercise: builder.mutation({
+      query: ({ token, method_id, training_id, exercise_id, index }) => ({
+        url: `?func=IndexExercise&method_id=${method_id}&training_id=${training_id}&exercise_id=${exercise_id}&token=${token}`,
+        method: "POST",
+        body: { index },
+      }),
+    }),
+    ClosePurchase: builder.mutation({
+      query: ({ token, formData }) => ({
+        url: `?func=ClosePurchase&token=${token}`,
+        method: "POST",
+        body: formData,
+      }),
+    }),
+    DeleteService: builder.mutation({
+      query: ({ token, formData }) => ({
+        url: `?func=DeleteService&token=${token}`,
+        method: "POST",
+        body: formData,
+      }),
+    }),
+    ShortServices: builder.query({
+      query: (token) => `?func=ShortServices&token=${token}`,
+    }),
+
+    DeleteSchedule: builder.mutation({
+      query: ({ token, formData }) => ({
+        url: `?func=DeleteSchedule&token=${token}`,
+        method: "POST",
+        body: formData,
+      }),
+    }),
   }),
 });
 
@@ -285,4 +331,9 @@ export const {
   useEditExerciseMutation,
   useDeleteExerciseMutation,
   useGetExercisesQuery,
+  useIndexExerciseMutation,
+  useClosePurchaseMutation,
+  useDeleteServiceMutation,
+  useShortServicesQuery,
+  useDeleteScheduleMutation,
 } = api;
