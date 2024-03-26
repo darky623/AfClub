@@ -8,17 +8,13 @@ import Loader from "../../shared/ui/Loader";
 import { useGetLoginQuery } from "../../redux/api";
 
 const Coach = () => {
-  const [token, setToken] = useState(null);
+  const [token, setToken ] = useState(null)
 
-  useEffect(() => {
-    setToken(localStorage.getItem("token"));
-  }, []);
+  useEffect(()=>{
+    setToken(localStorage.getItem("token"))
+  }, [])
 
-  const {
-    data: resultData,
-    isError,
-    refetch,
-  } = useGetLoginQuery(token, {
+  const { data: resultData, isError, refetch } = useGetLoginQuery(token, {
     skip: !token,
   });
 
@@ -48,14 +44,14 @@ const Coach = () => {
     <div className={s.coach}>
       {coachData?.status === "expert" ? (
         <>
-          <CoachDesc coachData={coachData} refetch={refetch} />
+          <CoachDesc coachData={coachData} refetch={refetch}/>
           <CoachLinks coachData={coachData} />
         </>
       ) : coachData?.status === "user" ? (
         <ClientLinks />
       ) : coachData?.status === "helper" ? (
         <>
-          <CoachDesc coachData={coachData} refetch={refetch} />
+          <CoachDesc coachData={coachData} refetch={refetch}/>
           <CoachLinks coachData={coachData} status="helper" />
         </>
       ) : (
