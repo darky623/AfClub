@@ -4,16 +4,19 @@ import s from "./TarrifsDetailCreate.module.scss";
 import BackLink from "../../components/BackLink/BackLink";
 import SaveBtn from "../../shared/ui/SaveBtn";
 import UiSelect from "../../shared/ui/UiSelect";
-import UiModal from "../../shared/ui/UiModal";
 import { useCreateServicesMutation } from "../../redux/api";
 import { useRouter } from "next/router";
-import EditingBtn from "../../shared/ui/EditingBtn";
+import { Input } from "antd";
+import TimeInput from "../../shared/ui/timeInput";
+
+const { TextArea } = Input;
 
 const TariffsDetailCreate = () => {
   const router = useRouter();
   const options = ["Ведение", "Короткая", "Выступление"];
   const [token, setToken] = useState(null);
   const isBrowser = typeof window !== "undefined";
+  const [focused, setFocused] = useState(false);
 
   const [createService] = useCreateServicesMutation();
 
@@ -28,10 +31,11 @@ const TariffsDetailCreate = () => {
   });
 
   const [createData, setCreateData] = useState({
+    duration: 0,
     title: "",
     description: "",
     price: "",
-    type: "",
+    type: "short",
   });
 
   const handleSelectChange = (selectedValue) => {
@@ -45,21 +49,9 @@ const TariffsDetailCreate = () => {
     selected = selectedMap[selectedValue] || "";
     setCreateData({ ...createData, type: selected });
   };
-  const handleOk = (type) => {
-    setModalState({ ...modalState, [type]: false });
-  };
-
-  const handleCancel = (type) => {
-    setModalState({ ...modalState, [type]: false });
-    setCreateData({ title: "", desc: "", price: "" });
-  };
-
-  const showModal = (type) => {
-    setModalState({ ...modalState, [type]: true });
-  };
 
   const sendEditMethod = async () => {
-    setCreateData({ title: "", desc: "", price: "" });
+    setCreateData({ title: "", desc: "", price: "", duration: 0 });
     try {
       await createService({
         token,
@@ -78,105 +70,71 @@ const TariffsDetailCreate = () => {
       <div className={s.tarrifs_detail_informations}>
         <div className={s.tarrifs_detail_informations_type}>
           <UiSelect
-            type={"Тип услуги:"}
+            tariffs={true}
+            title="Тип услуги "
+            type={"Короткая"}
             options={options}
             onSelectChange={handleSelectChange}
           />
         </div>
+        {createData.type === "short" ? (
+          <div className={s.tarrifs_detail_informations_name}>
+            <p>
+              <span>Время:</span>{" "}
+            </p>
+            <div className={s.tarrifs_detail_time}>
+              <TimeInput
+                value={createData.duration}
+                onChange={(newValue) =>
+                  setCreateData({ ...createData, duration: newValue })
+                }
+              />
+            </div>
+          </div>
+        ) : null}
         <div className={s.tarrifs_detail_informations_name}>
           <p>
             <span>Название:</span>{" "}
-            {createData.title ? (
-              createData.title
-            ) : (
-              <span className={s.tarrifs_detail_informations_name_before}>
-                Напишите название услуги
-              </span>
-            )}
           </p>
-          <EditingBtn onClick={() => showModal("title")} />
-          {isBrowser ? (
-            <UiModal
-              nameModal={"Название услуги"}
-              handleOk={() => handleOk("title")}
-              handleCancel={() => handleCancel("title")}
-              isModalOpen={modalState.title}
-            >
-              <input
-                type="text"
-                placeholder="Напишите название услуги"
-                maxLength={25}
-                value={createData.title}
-                onChange={(e) =>
-                  setCreateData({ ...createData, title: e.target.value })
-                }
-              />
-            </UiModal>
-          ) : null}
+          <input
+            type="text"
+            placeholder="Название услуги"
+            maxLength={100}
+            value={createData.title}
+            onChange={(e) =>
+              setCreateData({ ...createData, title: e.target.value })
+            }
+          />
         </div>
         <div className={s.tarrifs_detail_informations_desc}>
           <p>
-            <span>Описание:</span>{" "}
-            {createData.description ? (
-              createData.description
-            ) : (
-              <span className={s.tarrifs_detail_informations_name_before}>
-                Напишите описание услуги
-              </span>
-            )}
+            <span>Описание:</span>
           </p>
-          <EditingBtn onClick={() => showModal("description")} />
-          {isBrowser ? (
-            <UiModal
-              nameModal={"Описание услуги"}
-              handleOk={() => handleOk("description")}
-              handleCancel={() => handleCancel("description")}
-              isModalOpen={modalState.description}
-            >
-              <input
-                type="text"
-                placeholder="Напишите описание услуги"
-                maxLength={250}
-                value={createData.description}
-                onChange={(e) =>
-                  setCreateData({ ...createData, description: e.target.value })
-                }
-              />
-            </UiModal>
-          ) : null}
+          <textarea
+            type="text"
+            placeholder="Описание услуги"
+            maxLength={250}
+            value={createData.description}
+            onChange={(e) =>
+              setCreateData({ ...createData, description: e.target.value })
+            }
+          />
         </div>
         <div className={s.tarrifs_detail_informations_price}>
           <p>
-            <span>Стоимость:</span>{" "}
-            {createData.price ? (
-              createData.price + " ₽"
-            ) : (
-              <span className={s.tarrifs_detail_informations_name_before}>
-                Напишите cтоимость услуги
-              </span>
-            )}
+            <span>Стоимость:</span>
           </p>
-          <EditingBtn onClick={() => showModal("price")} />
-          {isBrowser ? (
-            <UiModal
-              nameModal={"Стоимость услуги"}
-              handleOk={() => handleOk("price")}
-              handleCancel={() => handleCancel("price")}
-              isModalOpen={modalState.price}
-            >
-              <input
-                type="number"
-                placeholder="Напишите стоимость услуги"
-                min={0}
-                max={9999999999}
-                value={createData.price}
-                onChange={(e) => {
-                  const value = Math.max(0, parseInt(e.target.value));
-                  setCreateData({ ...createData, price: value });
-                }}
-              />
-            </UiModal>
-          ) : null}
+          <input
+            type="number"
+            placeholder="Стоимость услуги"
+            min={0}
+            max={9999999999}
+            value={createData.price}
+            onChange={(e) => {
+              const value = Math.max(0, parseInt(e.target.value));
+              setCreateData({ ...createData, price: value });
+            }}
+          />
         </div>
       </div>
       <SaveBtn nameBtn={"Добавить"} onClick={sendEditMethod} />

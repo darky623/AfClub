@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import s from "./CoachDesc.module.scss";
-import Image from "next/image";
+// import Image from "next/image";
+import { Image } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Upload } from "antd";
 import {
@@ -35,7 +36,6 @@ const CoachDesc = ({ coachData, refetch }) => {
           await uploadPhoto({ token, image: photo });
         }
         setIsModalOpen(false);
-        // setCreateData({ name: "", speciality: "" });
         toast.success("Успешно изменено");
         refetch();
       } catch (error) {
@@ -62,7 +62,7 @@ const CoachDesc = ({ coachData, refetch }) => {
             height={100}
             src={coachData.portrait}
             alt="Expert"
-            priority={true}
+            // priority={true}
           />
         </div>
       ) : (
@@ -111,7 +111,7 @@ const CoachDesc = ({ coachData, refetch }) => {
                   beforeUpload={(file) => {
                     const isJpgOrPng =
                       file.type === "image/jpeg" || file.type === "image/png";
-                    const isSizeValid = file.size / 1024 / 1024 < 3;
+                    const isSizeValid = file.size / 1024 / 1024 < 10;
 
                     if (!isJpgOrPng) {
                       toast.error(
@@ -121,7 +121,7 @@ const CoachDesc = ({ coachData, refetch }) => {
                     }
 
                     if (!isSizeValid) {
-                      toast.error("Выберите файл размером не более 3MB!");
+                      toast.error("Выберите файл размером не более 10MB!");
                       return false;
                     }
 
