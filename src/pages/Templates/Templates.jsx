@@ -141,11 +141,7 @@ const Templates = ({ main = true }) => {
   return (
     <div className={s.templates} style={main ? {} : { padding: 0 }}>
       <div className={s.templates_shared}>
-        {main ? (
-          <BackLink menuTitle="Меню" currentPage="Методики" />
-        ) : (
-          <div></div>
-        )}
+        <BackLink menuTitle="Меню" currentPage="Методики" />
         <AddButton
           onClick={() => {
             setIsOpen(true);
@@ -165,7 +161,7 @@ const Templates = ({ main = true }) => {
           <input
             type="text"
             placeholder="Напишите название новой методики"
-            maxLength={100}
+            maxLength={25}
             value={methodName}
             onChange={(e) => setMethodName(e.target.value)}
           />
@@ -173,7 +169,7 @@ const Templates = ({ main = true }) => {
           <input
             type="text"
             placeholder="Напишите описание метода"
-            maxLength={250}
+            maxLength={120}
             value={methodDescription}
             onChange={(e) => setMethodDescription(e.target.value)}
           />
@@ -248,7 +244,7 @@ const Templates = ({ main = true }) => {
                   <input
                     type="text"
                     placeholder="Напишите название новой методики"
-                    maxLength={100}
+                    maxLength={25}
                     value={newMethodName}
                     onChange={(e) => {
                       setNewMethodName(e.target.value);
@@ -257,7 +253,7 @@ const Templates = ({ main = true }) => {
                   <input
                     type="text"
                     placeholder="Напишите описание метода"
-                    maxLength={250}
+                    maxLength={120}
                     value={methodDescription}
                     onChange={(e) => setMethodDescription(e.target.value)}
                   />

@@ -4,16 +4,14 @@ import { toast } from "react-toastify";
 import BackLink from "../../components/BackLink/BackLink";
 import SaveBtn from "../../shared/ui/SaveBtn";
 import UiSelect from "../../shared/ui/UiSelect";
+import UiModal from "../../shared/ui/UiModal";
 import { useEditServicesMutation, useGetServicesQuery } from "../../redux/api";
 import { useRouter } from "next/router";
-import { Input } from "antd";
-
-const { TextArea } = Input;
+import EditingBtn from "../../shared/ui/EditingBtn";
 
 const TariffsDetail = () => {
   const router = useRouter();
   const isBrowser = typeof window !== "undefined";
-  const [focused, setFocused] = useState(false);
 
   const [token, setToken] = useState(null);
 
@@ -38,7 +36,6 @@ const TariffsDetail = () => {
   });
 
   const [editData, setEditData] = useState({
-    duration: 0,
     title: "",
     description: "",
     price: "",
@@ -67,9 +64,21 @@ const TariffsDetail = () => {
     selected = selectedMap[selectedValue] || "";
     setEditData({ ...editData, type: selected });
   };
+  const handleOk = (type) => {
+    setModalState({ ...modalState, [type]: false });
+  };
+
+  const handleCancel = (type) => {
+    setModalState({ ...modalState, [type]: false });
+    setEditData({ title: "", description: "", price: "" });
+  };
+
+  const showModal = (type) => {
+    setModalState({ ...modalState, [type]: true });
+  };
 
   const sendEditMethod = async () => {
-    setEditData({ title: "", description: "", price: "", duration: 0 });
+    setEditData({ title: "", description: "", price: "" });
     try {
       await editService({
         token,
@@ -92,8 +101,6 @@ const TariffsDetail = () => {
     );
   }
 
-  console.log(resultData);
-
   return (
     <div className={s.tarrifs_detail}>
       <BackLink menuTitle="Услуги" currentPage="Изменить" />
@@ -105,64 +112,100 @@ const TariffsDetail = () => {
             onSelectChange={handleSelectChange}
           />
         </div>
-        {editData.type === "short" ? (
-          <div className={s.tarrifs_detail_informations_name}>
-            <p>
-              <span>Время:</span>{" "}
-            </p>
-            <div className={s.tarrifs_detail_time}>
-              <TimeInput
-                value={editData.duration}
-                onChange={(newValue) =>
-                  setEditData({ ...editData, duration: newValue })
-                }
-              />
-            </div>
-          </div>
-        ) : null}
         <div className={s.tarrifs_detail_informations_name}>
           <p>
             <span>Название: </span>
+            {editData.title ? (
+              editData.title
+            ) : (
+              <span className={s.tarrifs_detail_informations_name_before}>
+                Напишите название услуги
+              </span>
+            )}
           </p>
-          <input
-            type="text"
-            placeholder="Название услуги"
-            maxLength={25}
-            value={editData.title}
-            onChange={(e) =>
-              setEditData({ ...editData, title: e.target.value })
-            }
-          />
+          <EditingBtn onClick={() => showModal("title")} />
+          {isBrowser ? (
+            <UiModal
+              nameModal={"Название услуги"}
+              handleOk={() => handleOk("title")}
+              handleCancel={() => handleCancel("title")}
+              isModalOpen={modalState.title}
+            >
+              <input
+                type="text"
+                placeholder="Напишите название услуги"
+                maxLength={25}
+                value={editData.title}
+                onChange={(e) =>
+                  setEditData({ ...editData, title: e.target.value })
+                }
+              />
+            </UiModal>
+          ) : null}
         </div>
         <div className={s.tarrifs_detail_informations_desc}>
           <p>
-            <span>Описание:</span>
+            <span>Описание: </span>
+            {editData.description ? (
+              editData.description
+            ) : (
+              <span className={s.tarrifs_detail_informations_name_before}>
+                Напишите описание услуги
+              </span>
+            )}
           </p>
-          <textarea
-            type="text"
-            placeholder="Описание услуги"
-            maxLength={250}
-            value={editData.description}
-            onChange={(e) =>
-              setEditData({ ...editData, description: e.target.value })
-            }
-          />
+          <EditingBtn onClick={() => showModal("description")} />
+          {isBrowser ? (
+            <UiModal
+              nameModal={"Описание услуги"}
+              handleOk={() => handleOk("description")}
+              handleCancel={() => handleCancel("description")}
+              isModalOpen={modalState.description}
+            >
+              <input
+                type="text"
+                placeholder="Напишите описание услуги"
+                maxLength={250}
+                value={editData.description}
+                onChange={(e) =>
+                  setEditData({ ...editData, description: e.target.value })
+                }
+              />
+            </UiModal>
+          ) : null}
         </div>
         <div className={s.tarrifs_detail_informations_price}>
           <p>
             <span>Стоимость: </span>
+            {editData.price ? (
+              editData.price + " ₽"
+            ) : (
+              <span className={s.tarrifs_detail_informations_name_before}>
+                Напишите стоимость услуги
+              </span>
+            )}
           </p>
-          <input
-            type="number"
-            min={0}
-            max={999999}
-            placeholder="Стоимость услуги"
-            value={editData.price}
-            onChange={(e) => {
-              const value = Math.max(0, parseInt(e.target.value));
-              setEditData({ ...editData, price: value });
-            }}
-          />
+          <EditingBtn onClick={() => showModal("price")} />
+          {isBrowser ? (
+            <UiModal
+              nameModal={"Стоимость услуги"}
+              handleOk={() => handleOk("price")}
+              handleCancel={() => handleCancel("price")}
+              isModalOpen={modalState.price}
+            >
+              <input
+                type="number"
+                min={0}
+                max={999999}
+                placeholder="Напишите стоимость услуги"
+                value={editData.price}
+                onChange={(e) => {
+                  const value = Math.max(0, parseInt(e.target.value));
+                  setEditData({ ...editData, price: value });
+                }}
+              />
+            </UiModal>
+          ) : null}
         </div>
       </div>
       <SaveBtn nameBtn={"Сохранить"} onClick={sendEditMethod} />
