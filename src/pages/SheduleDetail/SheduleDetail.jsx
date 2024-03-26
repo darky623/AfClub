@@ -8,7 +8,6 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import {
   useCreateScheduleMutation,
-  useGetServicesQuery,
   useShortServicesQuery,
 } from "../../redux/api";
 import { useRouter } from "next/router";
@@ -36,10 +35,7 @@ const SheduleDetail = () => {
 
   useEffect(() => {
     setData(resultData);
-    if (startDate.isAfter(endDate)) {
-      setEndDate(startDate);
-    }
-  }, [startDate, endDate, resultData]);
+  }, [resultData]);
 
   const handleSelectChange = (value) => {
     setSelectValue(value);
@@ -68,6 +64,11 @@ const SheduleDetail = () => {
     router.back();
   };
 
+  const disabledDate = (current) => {
+    const today = dayjs().startOf("day");
+    return current && current < today;
+  };
+
   return (
     <div className={s.schedule_detail}>
       <BackLink menuTitle="График" currentPage="Добавить" />
@@ -92,12 +93,14 @@ const SheduleDetail = () => {
       <h3>Начало</h3>
       <div className={s.schedule_detail_beginning}>
         <DatePicker
+          popupClassName="startDatePicker"
           className="schedule_detail_beginning_picker"
-          showTime
+          showTime={{ minuteStep: 10 }}
           format="DD.MM.YYYY  в  HH:mm"
           inputReadOnly
           value={startDate}
           onChange={handleStartDateChange}
+          disabledDate={disabledDate}
         />
       </div>
       <SaveBtn nameBtn={"Добавить"} onClick={sendShedule} />
