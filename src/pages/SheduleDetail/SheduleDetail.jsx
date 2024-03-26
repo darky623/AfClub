@@ -8,7 +8,7 @@ import { DatePicker } from "antd";
 import dayjs from "dayjs";
 import {
   useCreateScheduleMutation,
-  useGetServicesQuery,
+  useShortServicesQuery,
 } from "../../redux/api";
 import { useRouter } from "next/router";
 
@@ -16,16 +16,16 @@ const SheduleDetail = () => {
   const router = useRouter();
   const [token, setToken] = useState(null);
   const [startDate, setStartDate] = useState(dayjs());
-  const [endDate, setEndDate] = useState(dayjs());
-  const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
-  const [selectValue, setSelectValue] = useState(null);
+  // const [endDate, setEndDate] = useState(dayjs());
+  // const [openEndDatePicker, setOpenEndDatePicker] = useState(false);
+  const [selectValue, setSelectValue] = useState("Выберите услугу");
   const [data, setData] = useState([]);
 
   useEffect(() => {
     setToken(localStorage.getItem("token"));
   }, []);
 
-  const { data: resultData, isError } = useGetServicesQuery(token, {
+  const { data: resultData, isError } = useShortServicesQuery(token, {
     skip: !token,
   });
 
@@ -33,10 +33,7 @@ const SheduleDetail = () => {
 
   useEffect(() => {
     setData(resultData);
-    if (startDate.isAfter(endDate)) {
-      setEndDate(startDate);
-    }
-  }, [startDate, endDate, resultData]);
+  }, [resultData]);
 
   const handleSelectChange = (value) => {
     setSelectValue(value);
@@ -44,12 +41,12 @@ const SheduleDetail = () => {
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
-    setOpenEndDatePicker(true);
+    // setOpenEndDatePicker(true);
   };
 
-  const handleEndDateChange = (date) => {
-    setEndDate(date);
-  };
+  // const handleEndDateChange = (date) => {
+  //   setEndDate(date);
+  // };
 
   const sendShedule = () => {
     if (!selectValue) {
@@ -57,10 +54,10 @@ const SheduleDetail = () => {
       return;
     }
     const formattedStartDate = startDate.format("DD/MM/YYYY HH:mm:ss");
-    const formattedEndDate = endDate.format("DD/MM/YYYY HH:mm:ss");
+    // const formattedEndDate = endDate.format("DD/MM/YYYY HH:mm:ss");
     const createData = {
       date_start: formattedStartDate,
-      date_finish: formattedEndDate,
+      // date_finish: formattedEndDate,
       service_id: selectValue,
     };
 
@@ -69,6 +66,11 @@ const SheduleDetail = () => {
       createData,
     });
     router.back();
+  };
+
+  const disabledDate = (current) => {
+    const today = dayjs().startOf("day");
+    return current && current < today;
   };
 
   return (
@@ -95,27 +97,30 @@ const SheduleDetail = () => {
       <h3>Начало</h3>
       <div className={s.schedule_detail_beginning}>
         <DatePicker
+          popupClassName="startDatePicker"
           className="schedule_detail_beginning_picker"
-          showTime
+          showTime={{ minuteStep: 10 }}
           format="DD.MM.YYYY  в  HH:mm"
           inputReadOnly
           value={startDate}
           onChange={handleStartDateChange}
+          disabledDate={disabledDate}
         />
       </div>
-      <h3>Завершение</h3>
+      {/* <h3>Завершение</h3>
       <div className={s.schedule_detail_complete}>
         <DatePicker
+          popupClassName="endDatePicker"
           className="schedule_detail_beginning_picker"
           value={endDate}
           onChange={handleEndDateChange}
           open={openEndDatePicker}
           onOpenChange={(status) => setOpenEndDatePicker(status)}
-          showTime
+          showTime={{ minuteStep: 10 }}
           format="DD.MM.YYYY  в  HH:mm"
           inputReadOnly
         />
-      </div>
+      </div> */}
       <SaveBtn nameBtn={"Добавить"} onClick={sendShedule} />
     </div>
   );

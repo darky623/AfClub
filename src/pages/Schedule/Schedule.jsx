@@ -9,13 +9,13 @@ import Loader from "../../shared/ui/Loader";
 import NoInform from "../../shared/ui/NoInform";
 
 const Shchedule = () => {
-  const [token, setToken ] = useState(null)
+  const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  useEffect(()=>{
-    setToken(localStorage.getItem("token"))
-  }, [])
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+  }, []);
 
   const router = useRouter();
 
@@ -23,8 +23,8 @@ const Shchedule = () => {
     router.push("/SheduleDetail/SheduleDetail");
   };
   const handleTrnsition = (id) => {
-    router.push(`/WardsDetail/${id}`)
-  }
+    router.push(`/WardsDetail/${id}`);
+  };
 
   const handleItemClick = (event) => {
     if (event.status !== "free") {
@@ -32,7 +32,11 @@ const Shchedule = () => {
     }
   };
 
-  const { data: resultData, isError, refetch } = useGetScheduleQuery(token, {
+  const {
+    data: resultData,
+    isError,
+    refetch,
+  } = useGetScheduleQuery(token, {
     skip: !token,
   });
 
@@ -60,7 +64,7 @@ const Shchedule = () => {
 
   useEffect(() => {
     if (resultData) {
-      refetch()
+      refetch();
       const groupedByDate = resultData.reduce((acc, event) => {
         const date = event.date_start.split(" ")[0];
         if (!acc[date]) {
@@ -101,8 +105,7 @@ const Shchedule = () => {
             <div className={s.schedule_info_time}>
               {events.map((event) => (
                 <div
-
-                onClick={() => handleItemClick(event)}
+                  onClick={() => handleItemClick(event)}
                   key={event.id}
                   className={
                     event.status === "busy"
@@ -112,8 +115,17 @@ const Shchedule = () => {
                 >
                   <p>
                     <span>
-                      {event.date_start.split(" ")[1]} -{" "}
-                      {event.date_finish.split(" ")[1]}
+                      {event.date_start
+                        .split(" ")[1]
+                        .split(":")
+                        .slice(0, 2)
+                        .join(":")}{" "}
+                      -{" "}
+                      {event.date_finish
+                        .split(" ")[1]
+                        .split(":")
+                        .slice(0, 2)
+                        .join(":")}
                     </span>{" "}
                     {event.title}
                   </p>
