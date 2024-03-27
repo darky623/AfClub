@@ -69,7 +69,8 @@ const SheduleDetail = () => {
         token,
         createData,
       });
-      if (result.error.originalStatus === 208) {
+
+      if (result.error?.originalStatus === 208) {
         toast.error("На это время, уже есть запись");
         return;
       }
