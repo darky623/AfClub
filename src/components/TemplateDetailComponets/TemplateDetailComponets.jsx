@@ -56,9 +56,7 @@ const TemplateDetailComponets = ({ id }) => {
   const [approaches, setApproaches] = useState("");
   const [musle, setMusle] = useState("");
   const [musleFunc, setMusleFun] = useState(false);
-  // const [exercises, setExercises] = useState(training.exercises);
   const [currentId, setCurrentId] = useState(null);
-  // const [updatedListProgram, setUpdatedListProgram] = useState([]);
 
   const [token, setToken] = useState(null);
 
@@ -93,26 +91,6 @@ const TemplateDetailComponets = ({ id }) => {
   const [indexExerciseMutation] = useIndexExerciseMutation();
 
   // ///////////////////////////////////drag&drop//////////////////////////////////////////////
-
-  // const newList = async (e, exercise) => {
-  //   if (currentId !== exercise.exercise_id) {
-  //     try {
-  //       const response = await indexExerciseMutation({
-  //         token,
-  //         method_id: id,
-  //         training_id: trainingId,
-  //         exercise_id: exercise.exercise_id,
-  //         index: currentId,
-  //       });
-  //       setUpdatedListProgram(response);
-  //       refetch();
-  //       console.log(updatedListProgram);
-  //       console.log(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  // };
 
   const onDragEnd = async (result) => {
     if (!result.destination) return;
@@ -201,7 +179,7 @@ const TemplateDetailComponets = ({ id }) => {
       type: muscleName,
       title: exerciseName,
       feel: approaches,
-      type: exsType,
+      // type: exsType,
     };
 
     try {
@@ -230,6 +208,9 @@ const TemplateDetailComponets = ({ id }) => {
   /* ////////////////////////////////Функция изменение подхода//////////////////////////// */
 
   const sendEditExercise = async () => {
+    console.log(
+      `muscleName: ${muscleName}, exerciseName:${exerciseName}, approaches:${approaches}`
+    );
     if (muscleName === "" || exerciseName === "" || approaches === "") {
       alert("Заполните пожалуйста заполните поля");
       return;
@@ -239,7 +220,7 @@ const TemplateDetailComponets = ({ id }) => {
       type: muscleName,
       title: exerciseName,
       feel: approaches,
-      type: exsType,
+      // type: exsType,
     };
 
     try {
@@ -264,6 +245,13 @@ const TemplateDetailComponets = ({ id }) => {
       setSelectedOptionExercises("Выберите группу мышц");
       setSelectedOptionEx("Выберите Упражнение");
     }
+  };
+
+  const canselModalEdit = () => {
+    setSelectedOptionExercises("Выберите группу мышц");
+    setSelectedOptionEx("Выберите Упражнение");
+    setApproaches("");
+    setIsOpenEditExercise(false);
   };
 
   /* ////////////////////////////////Функция удаления подхода//////////////////////////// */
@@ -484,7 +472,7 @@ const TemplateDetailComponets = ({ id }) => {
           sendEditExercise(), setIsOpenEditExercise(false);
         }}
         handleCancel={() => {
-          setIsOpenEditExercise(false);
+          canselModalEdit();
         }}
         isModalOpen={isOpenEditExercise}
       >
@@ -495,6 +483,7 @@ const TemplateDetailComponets = ({ id }) => {
               handleSelectChangeExercises(value),
                 setMuscleName(value),
                 setExsTypeId(value);
+              console.log(value);
             }}
           >
             {resultExercises === undefined
@@ -697,12 +686,6 @@ const TemplateDetailComponets = ({ id }) => {
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}
-                                        onClick={(event) => {
-                                          console.log(event);
-                                        }}
-                                        // className={`${
-                                        //   s.template_detail_exercises
-                                        // } ${isDragging ? "dragging" : ""}`}
                                         className={s.template_detail_exercises}
                                       >
                                         <div
@@ -730,6 +713,18 @@ const TemplateDetailComponets = ({ id }) => {
                                         >
                                           <EditingBtn
                                             onClick={() => {
+                                              setMuscleName(
+                                                exercise.type_title
+                                              );
+                                              setExsTypeId(exercise.type_title);
+                                              setSelectedOptionExercises(
+                                                exercise.type_title
+                                              );
+                                              setSelectedOptionEx(
+                                                exercise.title
+                                              );
+                                              setExerciseName(exercise.title);
+                                              setApproaches(exercise.feel);
                                               setIsOpenEditExercise(true);
                                               setExerciseId(
                                                 exercise.exercise_id
