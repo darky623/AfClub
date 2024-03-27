@@ -17,6 +17,8 @@ const SheduleDetail = () => {
   const [token, setToken] = useState(null);
   const [startDate, setStartDate] = useState(dayjs());
   const [selectValue, setSelectValue] = useState("Выберите услугу");
+  const [hours, setHours] = useState(null);
+  const [minutes, setMinutes] = useState(null);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -37,15 +39,22 @@ const SheduleDetail = () => {
     setData(resultData);
   }, [resultData]);
 
-  const handleSelectChange = (value) => {
+  const handleSelectChange = (value, option) => {
     setSelectValue(value);
+    if (option && option.option && option.option.duration) {
+      const durationInMinutes = option.option.duration;
+      const hoursTime = Math.floor(durationInMinutes / 60);
+      const minutesTime = durationInMinutes % 60;
+      setHours(hoursTime);
+      setMinutes(minutesTime);
+    }
   };
 
   const handleStartDateChange = (date) => {
     setStartDate(date);
   };
 
-  const sendShedule = () => {
+  const sendShedule = async () => {
     if (!selectValue || selectValue === "Выберите услугу") {
       toast.error("Выберите тип услуги пожалуйста");
       return;
@@ -55,13 +64,21 @@ const SheduleDetail = () => {
       date_start: formattedStartDate,
       service_id: selectValue,
     };
+    try {
+      const result = await createShedule({
+        token,
+        createData,
+      });
+      if (result.error.originalStatus === 208) {
+        toast.error("На это время, уже есть запись");
+        return;
+      }
 
-    createShedule({
-      token,
-      createData,
-    });
-    refetch();
-    router.back();
+      refetch();
+      router.back();
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 
   const disabledDate = (current) => {
@@ -74,22 +91,44 @@ const SheduleDetail = () => {
       <BackLink menuTitle="График" currentPage="Добавить" />
       <div className={s.schedule_detail_variants}>
         <Space>
-          <Select onChange={handleSelectChange} value={selectValue}>
+          <Select
+            onChange={(value, option) => {
+              handleSelectChange(value, option);
+            }}
+            value={selectValue}
+          >
             {data &&
               data.map((option) => (
-                <Select.Option
-                  key={option.service_id}
-                  value={option.service_id}
-                >
-                  <p>
-                    <span>Услуги: </span>
-                    {option.title}
-                  </p>
-                </Select.Option>
+                <>
+                  <Select.Option
+                    key={option.service_id}
+                    value={option.service_id}
+                    option={option}
+                  >
+                    <p>
+                      <span>Услуги: </span>
+                      {option.title}
+                    </p>
+                  </Select.Option>
+                </>
               ))}
           </Select>
         </Space>
+        {hours === null ? null : hours === 0 ? (
+          <p className={s.schedule_detail_timeTitle}>
+            Продолжительность {minutes} минут
+          </p>
+        ) : hours > 0 && minutes === 0 ? (
+          <p className={s.schedule_detail_timeTitle}>
+            Продолжительность {hours} час(а)
+          </p>
+        ) : (
+          <p className={s.schedule_detail_timeTitle}>
+            Продолжительность {hours} час(а) {minutes} минут
+          </p>
+        )}
       </div>
+
       <h3>Начало</h3>
       <div className={s.schedule_detail_beginning}>
         <DatePicker
