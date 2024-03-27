@@ -81,7 +81,26 @@ const Tariffs = () => {
               <div key={services.service_id} className={s.tariffs_card}>
                 <div className={s.tariffs_card_desc}>
                   <h3>{services.title}</h3>
-                  <p>{services.description}</p>
+                  <div className={s.wrapper}>
+                    <p style={{ padding: 0 }}>{services.description}</p>
+                    {services.type === "short" ? (
+                      <p style={{ padding: 0, marginTop: "5px" }}>
+                        {services.duration !== 0 &&
+                        Math.floor(services.duration / 60) !== 0 ? (
+                          <>
+                            {Math.floor(services.duration / 60)} час(а){" "}
+                            {services.duration % 60 === 0
+                              ? ""
+                              : `${services.duration % 60} минут`}{" "}
+                          </>
+                        ) : services.duration === 0 ? (
+                          ""
+                        ) : (
+                          `${services.duration % 60} минут`
+                        )}
+                      </p>
+                    ) : null}
+                  </div>
                   <h4>
                     Стоимость: <span>{services.price} ₽</span>
                   </h4>
