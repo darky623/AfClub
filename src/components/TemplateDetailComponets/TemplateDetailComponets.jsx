@@ -179,7 +179,7 @@ const TemplateDetailComponets = ({ id }) => {
       type: muscleName,
       title: exerciseName,
       feel: approaches,
-      // type: exsType,
+      type: exsType,
     };
 
     try {
@@ -208,9 +208,6 @@ const TemplateDetailComponets = ({ id }) => {
   /* ////////////////////////////////Функция изменение подхода//////////////////////////// */
 
   const sendEditExercise = async () => {
-    console.log(
-      `muscleName: ${muscleName}, exerciseName:${exerciseName}, approaches:${approaches}`
-    );
     if (muscleName === "" || exerciseName === "" || approaches === "") {
       alert("Заполните пожалуйста заполните поля");
       return;
@@ -220,17 +217,27 @@ const TemplateDetailComponets = ({ id }) => {
       type: muscleName,
       title: exerciseName,
       feel: approaches,
-      // type: exsType,
+      type: exsType,
     };
 
     try {
-      await editExercise({
+      const result = await editExercise({
         token,
         formData,
         method_id: id,
         training_id: trainingId,
         exercise_id: exerciseId,
       });
+
+      if (result.error?.originalStatus === 403) {
+        toast.error("Изменений не было.");
+        setApproaches("");
+        setExerciseName("");
+        setMuscleName("");
+        setExsType("");
+        setExsTypeId("");
+        return;
+      }
       setApproaches("");
       setExerciseName("");
       setMuscleName("");
@@ -480,10 +487,12 @@ const TemplateDetailComponets = ({ id }) => {
           <Select
             value={selectedOptionExercises}
             onChange={(value) => {
-              handleSelectChangeExercises(value),
-                setMuscleName(value),
-                setExsTypeId(value);
-              console.log(value);
+              const [type, id] = value.split(",");
+              console.log(id);
+              handleSelectChangeExercises(type),
+                setMuscleName(type),
+                setExsTypeId(type);
+              setExsType(id);
             }}
           >
             {resultExercises === undefined
@@ -491,7 +500,7 @@ const TemplateDetailComponets = ({ id }) => {
               : resultExercises[0]?.map((result) => (
                   <Select.Option
                     key={result.exs_type_id}
-                    value={result.exs_type}
+                    value={`${result.exs_type},${result.exs_type_id}`}
                   >
                     <p>
                       <span>Группа мышц: </span>
@@ -713,6 +722,7 @@ const TemplateDetailComponets = ({ id }) => {
                                         >
                                           <EditingBtn
                                             onClick={() => {
+                                              setExsType(exercise.type);
                                               setMuscleName(
                                                 exercise.type_title
                                               );
