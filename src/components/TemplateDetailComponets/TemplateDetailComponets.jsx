@@ -650,16 +650,7 @@ const TemplateDetailComponets = ({ id }) => {
             </div>
           )}
           {data[0].program.length === 0 ? (
-            <div className={s.template_detail_quantity}>
-              <p>
-                Упражнений:<span>0</span>
-              </p>
-              <AddButton
-                onClick={() => {
-                  setIsOpenCreateExercise(true);
-                }}
-              />
-            </div>
+            <div className={s.template_detail_quantity}></div>
           ) : (
             <>
               {data[0]?.program.map((training) =>
