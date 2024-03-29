@@ -108,16 +108,20 @@ const CoachDesc = ({ coachData, refetch }) => {
                 />
                 <Upload
                   beforeUpload={(file) => {
-                    const isJpgOrPng =
-                      file.type === "image/jpeg" || file.type === "image/png";
+                    // const isJpgOrPng =
+                    //   file.type === "image/jpeg" ||
+                    //   file.type === "image/png" ||
+                    //   file.type === "image/jpg" ||
+                    //   file.type === "image/heic" ||
+                    //   file.type === "image/heif";
                     const isSizeValid = file.size / 1024 / 1024 < 10;
 
-                    if (!isJpgOrPng) {
-                      toast.error(
-                        "Выберите файлы только в формате JPG или PNG!"
-                      );
-                      return false;
-                    }
+                    // if (!isJpgOrPng) {
+                    //   toast.error(
+                    //     "Выберите файлы только в форматах JPG, JPEG, PNG, HEIC или HEIF!"
+                    //   );
+                    //   return false;
+                    // }
 
                     if (!isSizeValid) {
                       toast.error("Выберите файл размером не более 10MB!");
