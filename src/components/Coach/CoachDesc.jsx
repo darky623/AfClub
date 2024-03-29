@@ -62,7 +62,6 @@ const CoachDesc = ({ coachData, refetch }) => {
             height={100}
             src={coachData.portrait}
             alt="Expert"
-            // priority={true}
           />
         </div>
       ) : (
@@ -129,7 +128,7 @@ const CoachDesc = ({ coachData, refetch }) => {
                     return true;
                   }}
                   maxCount={1}
-                  accept=".jpg, .jpeg, .png"
+                  accept=".jpg, .jpeg, .png, .heic, .heif"
                 >
                   <Button icon={<UploadOutlined />}></Button>
                   <p>Загрузите изображение</p>
