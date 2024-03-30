@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import BackLink from "../../components/BackLink/BackLink";
@@ -11,6 +10,7 @@ import s from "./Schedule.module.scss";
 import Loader from "../../shared/ui/Loader";
 import NoInform from "../../shared/ui/NoInform";
 import UiModal from "../../shared/ui/UiModal";
+import DeletBtn from "../../shared/ui/DeletBtn";
 
 const Shchedule = () => {
   const [token, setToken] = useState(null);
@@ -28,14 +28,9 @@ const Shchedule = () => {
   const handleAddClick = () => {
     router.push("/SheduleDetail/SheduleDetail");
   };
-  const handleTrnsition = (id) => {
-    router.push(`/WardsDetail/${id}`);
-  };
 
-  const handleItemClick = (event) => {
-    if (event.status !== "free") {
-      handleTrnsition(event.purchase_id);
-    }
+  const handleTransition = (id) => {
+    router.push(`/WardsDetail/${id}`);
   };
 
   const {
@@ -128,12 +123,11 @@ const Shchedule = () => {
             <div className={s.schedule_info_time}>
               {events.map((event) => (
                 <div
-                  onClick={() => handleItemClick(event)}
                   key={event.id}
                   className={
                     event.status === "busy"
-                      ? s.schedule_info_busy
-                      : s.schedule_info_anactive
+                      ? s.schedule_info_anactive
+                      : s.schedule_info_busy
                   }
                 >
                   <p>
@@ -152,16 +146,15 @@ const Shchedule = () => {
                     </span>{" "}
                     {event.title}
                   </p>
-                  {event.status === "free" && (
-                    <Image
-                      style={{ marginRight: 5 }}
-                      src={"/tick.png"}
-                      alt="Portrait"
-                      width={8}
-                      height={10}
+                  {event.status !== "free" && (
+                    <DeletBtn
+                      rightOutlined={true}
+                      onClick={() => {
+                        handleTransition(event.purchase_id);
+                      }}
                     />
                   )}
-                  {event.status !== "free" && (
+                  {event.status === "free" && (
                     <div className={s.wraper__DeletBtn}>
                       <DeletBtn
                         onClick={() => {
@@ -183,7 +176,7 @@ const Shchedule = () => {
         nameModal={"Удаление тренировки?"}
         isModalOpen={inOpen}
       >
-        <p>Вы уверены, что хотите удалить тренровку?</p>
+        <p>Вы уверены, что хотите удалить тренировку?</p>
       </UiModal>
     </div>
   );

@@ -56,9 +56,7 @@ const TemplateDetailComponets = ({ id }) => {
   const [approaches, setApproaches] = useState("");
   const [musle, setMusle] = useState("");
   const [musleFunc, setMusleFun] = useState(false);
-  // const [exercises, setExercises] = useState(training.exercises);
   const [currentId, setCurrentId] = useState(null);
-  // const [updatedListProgram, setUpdatedListProgram] = useState([]);
 
   const [token, setToken] = useState(null);
 
@@ -93,26 +91,6 @@ const TemplateDetailComponets = ({ id }) => {
   const [indexExerciseMutation] = useIndexExerciseMutation();
 
   // ///////////////////////////////////drag&drop//////////////////////////////////////////////
-
-  // const newList = async (e, exercise) => {
-  //   if (currentId !== exercise.exercise_id) {
-  //     try {
-  //       const response = await indexExerciseMutation({
-  //         token,
-  //         method_id: id,
-  //         training_id: trainingId,
-  //         exercise_id: exercise.exercise_id,
-  //         index: currentId,
-  //       });
-  //       setUpdatedListProgram(response);
-  //       refetch();
-  //       console.log(updatedListProgram);
-  //       console.log(data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  // };
 
   const onDragEnd = async (result) => {
     if (!result.destination) return;
@@ -243,13 +221,23 @@ const TemplateDetailComponets = ({ id }) => {
     };
 
     try {
-      await editExercise({
+      const result = await editExercise({
         token,
         formData,
         method_id: id,
         training_id: trainingId,
         exercise_id: exerciseId,
       });
+
+      if (result.error?.originalStatus === 403) {
+        toast.error("Изменений не было.");
+        setApproaches("");
+        setExerciseName("");
+        setMuscleName("");
+        setExsType("");
+        setExsTypeId("");
+        return;
+      }
       setApproaches("");
       setExerciseName("");
       setMuscleName("");
@@ -264,6 +252,13 @@ const TemplateDetailComponets = ({ id }) => {
       setSelectedOptionExercises("Выберите группу мышц");
       setSelectedOptionEx("Выберите Упражнение");
     }
+  };
+
+  const canselModalEdit = () => {
+    setSelectedOptionExercises("Выберите группу мышц");
+    setSelectedOptionEx("Выберите Упражнение");
+    setApproaches("");
+    setIsOpenEditExercise(false);
   };
 
   /* ////////////////////////////////Функция удаления подхода//////////////////////////// */
@@ -484,7 +479,7 @@ const TemplateDetailComponets = ({ id }) => {
           sendEditExercise(), setIsOpenEditExercise(false);
         }}
         handleCancel={() => {
-          setIsOpenEditExercise(false);
+          canselModalEdit();
         }}
         isModalOpen={isOpenEditExercise}
       >
@@ -492,9 +487,12 @@ const TemplateDetailComponets = ({ id }) => {
           <Select
             value={selectedOptionExercises}
             onChange={(value) => {
-              handleSelectChangeExercises(value),
-                setMuscleName(value),
-                setExsTypeId(value);
+              const [type, id] = value.split(",");
+              console.log(id);
+              handleSelectChangeExercises(type),
+                setMuscleName(type),
+                setExsTypeId(type);
+              setExsType(id);
             }}
           >
             {resultExercises === undefined
@@ -502,7 +500,7 @@ const TemplateDetailComponets = ({ id }) => {
               : resultExercises[0]?.map((result) => (
                   <Select.Option
                     key={result.exs_type_id}
-                    value={result.exs_type}
+                    value={`${result.exs_type},${result.exs_type_id}`}
                   >
                     <p>
                       <span>Группа мышц: </span>
@@ -652,16 +650,7 @@ const TemplateDetailComponets = ({ id }) => {
             </div>
           )}
           {data[0].program.length === 0 ? (
-            <div className={s.template_detail_quantity}>
-              <p>
-                Упражнений:<span>0</span>
-              </p>
-              <AddButton
-                onClick={() => {
-                  setIsOpenCreateExercise(true);
-                }}
-              />
-            </div>
+            <div className={s.template_detail_quantity}></div>
           ) : (
             <>
               {data[0]?.program.map((training) =>
@@ -697,12 +686,6 @@ const TemplateDetailComponets = ({ id }) => {
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}
-                                        onClick={(event) => {
-                                          console.log(event);
-                                        }}
-                                        // className={`${
-                                        //   s.template_detail_exercises
-                                        // } ${isDragging ? "dragging" : ""}`}
                                         className={s.template_detail_exercises}
                                       >
                                         <div
@@ -730,6 +713,19 @@ const TemplateDetailComponets = ({ id }) => {
                                         >
                                           <EditingBtn
                                             onClick={() => {
+                                              setExsType(exercise.type);
+                                              setMuscleName(
+                                                exercise.type_title
+                                              );
+                                              setExsTypeId(exercise.type_title);
+                                              setSelectedOptionExercises(
+                                                exercise.type_title
+                                              );
+                                              setSelectedOptionEx(
+                                                exercise.title
+                                              );
+                                              setExerciseName(exercise.title);
+                                              setApproaches(exercise.feel);
                                               setIsOpenEditExercise(true);
                                               setExerciseId(
                                                 exercise.exercise_id
