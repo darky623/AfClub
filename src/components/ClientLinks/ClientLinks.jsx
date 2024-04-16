@@ -7,7 +7,9 @@ import BtnCounter from "../../shared/counter/BtnCounter";
 const ClientLinks = () => {
   return (
     <div className={s.clients_links}>
-      <p className={s.clients_link}>Услуги</p>
+      <p className={s.clients_link}>
+        Услуги <span className={s.beta}>( Beta версия )</span>
+      </p>
       <div className={s.clients_transitions}>
         <Link href={"/Experts/Experts"}>
           <BtnCounter />
