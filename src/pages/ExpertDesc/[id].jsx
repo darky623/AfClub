@@ -13,17 +13,24 @@ const ExpertDesc = () => {
   const [data, setData] = useState(null);
   const router = useRouter();
   const { id } = router.query;
+  const { token } = router.query;
 
-  const [token, setToken] = useState(null);
+  const [tokens, setTokens] = useState(null);
 
   useEffect(() => {
-    setToken(localStorage.getItem("token"));
-  }, []);
+    const localToken = localStorage.getItem("token");
+    if (token) {
+      localStorage.setItem("token", token);
+      setTokens(token);
+    } else if (localToken) {
+      setTokens(localToken);
+    }
+  }, [token]);
 
   const { data: resultData, isError } = useGetExpertClientsQuery(
-    { token, id },
+    { token: tokens, id },
     {
-      skip: !token,
+      skip: !tokens,
     }
   );
 

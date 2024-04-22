@@ -18,27 +18,34 @@ const BuyService = () => {
   const [schedules_id, setSchedules_id] = useState(null);
   const router = useRouter();
   const { id } = router.query;
-  const [token, setToken] = useState(null);
+  const [tokens, setTokens] = useState(null);
+  const { token } = router.query;
 
   useEffect(() => {
-    setToken(localStorage.getItem("token"));
-  }, []);
+    const localToken = localStorage.getItem("token");
+    if (token) {
+      localStorage.setItem("token", token);
+      setTokens(token);
+    } else if (localToken) {
+      setTokens(localToken);
+    }
+  }, [token]);
 
   const { data: resultData, isError } = useGetShortExpertClientsQuery(
-    { token, id },
+    { token: tokens, id },
     {
-      skip: !token,
+      skip: !tokens,
     }
   );
 
   const { data: getLinkBuy, refetch } = useGetBtnPayClientsQuery(
     {
-      token,
+      token: tokens,
       schedules_id: schedules_id,
       service_id: id,
     },
     {
-      skip: !token || !schedules_id || !id,
+      skip: !tokens || !schedules_id || !id,
     }
   );
 
