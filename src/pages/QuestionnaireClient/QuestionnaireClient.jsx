@@ -20,25 +20,33 @@ const Questionnaire = () => {
   const router = useRouter();
   const { id } = router.query;
   const [formChanged, setFormChanged] = useState(false);
-  const [token, setToken] = useState(null);
+  const [tokens, setTokens] = useState(null);
   const [savedFormData, setSavedFormData] = useState({});
+  const { token } = router.query;
+
   useEffect(() => {
-    setToken(localStorage.getItem("token"));
-  }, []);
+    const localToken = localStorage.getItem("token");
+    if (token) {
+      localStorage.setItem("token", token);
+      setTokens(token);
+    } else if (localToken) {
+      setTokens(localToken);
+    }
+  }, [token]);
 
   const {
     data: resultData,
     isError,
     refetch,
-  } = useGetQuestionnaireQuery(token, {
-    skip: !token,
+  } = useGetQuestionnaireQuery(tokens, {
+    skip: !tokens,
   });
 
   const { data: resultDataStart, isErrorStart } =
     useGetQuestionnaireStartClientQuery(
-      { token },
+      { token: tokens },
       {
-        skip: !token,
+        skip: !tokens,
       }
     );
 
@@ -47,7 +55,7 @@ const Questionnaire = () => {
   const handleSaveClick = async () => {
     try {
       await editMemberProfileMutation({
-        token,
+        token: tokens,
         formData,
       });
       setSavedFormData({ ...formData });
@@ -95,7 +103,7 @@ const Questionnaire = () => {
 
   return (
     <div className={s.group_detail}>
-      <BackLink menuTitle="назад" currentPage="Анкета" disabled={formChanged}/>
+      <BackLink menuTitle="назад" currentPage="Анкета" disabled={formChanged} />
       <div className={s.group_detail_desc}>
         {data?.length !== 0 ? (
           <>
