@@ -31,6 +31,7 @@ const AnalyticsComponets = ({ id }) => {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [editMemberMisc] = useEditMemberMiscMutation();
   const [loadingContent, setLoadingContent] = useState(false);
+  const [select, setSelect] = useState("Текущий отчет");
 
   const { data: resultData, isError } = useGetMiscTypesQuery(token, {
     skip: !token,
@@ -65,6 +66,8 @@ const AnalyticsComponets = ({ id }) => {
   }, [token, id]);
 
   const handleSelectChange = async (selectedValue) => {
+    setSelect(selectedValue);
+    console.log(selectedValue);
     const foundItem = optionsData.find((item) => item.title === selectedValue);
     const type = foundItem ? foundItem.type : null;
 
@@ -123,7 +126,10 @@ const AnalyticsComponets = ({ id }) => {
           value={endDate}
           onChange={handleEndDateChange}
           open={openEndDatePicker}
-          onOpenChange={(status) => setOpenEndDatePicker(status)}
+          onOpenChange={(status) => {
+            setOpenEndDatePicker(status);
+            handleSelectChange(select);
+          }}
           format={dateFormatList}
           inputReadOnly
         />
