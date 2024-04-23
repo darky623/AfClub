@@ -116,7 +116,6 @@ const Templates = ({ main = true }) => {
     setMethodDescription("");
     setMethodName("");
   };
-
   /* ////////////////////////////////Функция удаления метода//////////////////////////// */
 
   const sendDeleteMethod = async () => {
@@ -249,6 +248,7 @@ const Templates = ({ main = true }) => {
                           }));
                           setNewMethodId(templates.method_id);
                           setNewMethodName(templates.title);
+                          setMethodDescription(templates.description);
                           // e.stopPropagation();
                         }}
                       />
