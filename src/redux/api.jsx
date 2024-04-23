@@ -282,6 +282,12 @@ export const api = createApi({
         body: formData,
       }),
     }),
+    CopyMethod: builder.mutation({
+      query: ({ token, method_id }) => ({
+        url: `?func=CopyMethod&method_id=${method_id}&token=${token}`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
@@ -336,4 +342,5 @@ export const {
   useDeleteServiceMutation,
   useShortServicesQuery,
   useDeleteScheduleMutation,
+  useCopyMethodMutation,
 } = api;
