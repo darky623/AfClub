@@ -31,6 +31,7 @@ const Templates = ({ main = true }) => {
   const [methodId, setNewMethodId] = useState("");
   const [token, setToken] = useState(null);
   const [modalStates, setModalStates] = useState({});
+  const [isRefetch, setIsRefetch] = useState(false);
 
   useEffect(() => {
     setToken(localStorage.getItem("token"));
@@ -78,6 +79,7 @@ const Templates = ({ main = true }) => {
         createData,
         method_id: methodId,
       });
+      setIsRefetch(true);
       toast.success("Успешно изменено");
       setNewMethodId("");
       refetch();
@@ -240,20 +242,25 @@ const Templates = ({ main = true }) => {
                     </div>
                     <div className={s.wraper__EditingBtn}>
                       <EditingBtn
-                        onClick={(e) => {
-                          e.stopPropagation();
+                        onClick={() => {
                           setModalStates((prevState) => ({
                             ...prevState,
                             [templates.method_id]: true,
                           }));
                           setNewMethodId(templates.method_id);
+                          setNewMethodName(templates.title);
+                          // e.stopPropagation();
                         }}
                       />
                     </div>
                   </div>
                 }
               >
-                <TemplateDetailComponets id={templates.method_id} />
+                <TemplateDetailComponets
+                  id={templates.method_id}
+                  isRefetch={isRefetch}
+                  setIsRefetch={setIsRefetch}
+                />
 
                 <UiModal
                   nameModal={"Изменение название методики"}
