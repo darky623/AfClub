@@ -27,7 +27,7 @@ import DeletBtn from "../../shared/ui/DeletBtn";
 import { Select, Space } from "antd";
 import UiButton from "../../shared/ui/UiButton";
 
-const TemplateDetailComponets = ({ id }) => {
+const TemplateDetailComponets = ({ id, isRefetch, setIsRefetch }) => {
   const router = useRouter();
   // const { id } = router.query;
   const [trainingId, setTrainingId] = useState(null);
@@ -75,6 +75,13 @@ const TemplateDetailComponets = ({ id }) => {
     }
   );
   useGetExercisesQuery;
+
+  useEffect(() => {
+    if (isRefetch && refetch) {
+      refetch();
+    }
+    setIsRefetch(false);
+  }, [isRefetch, refetch]);
 
   const { data: resultExercises, isErrorExercises } = useGetExercisesQuery(
     { token },
