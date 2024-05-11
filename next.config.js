@@ -5,6 +5,7 @@ const nextConfig = {
   images: {
     domains: [
       'app.rixyfit.ru/api',
+      'api.rixyfit.ru/api',
       'callback4bot.alexfedorov.pro:8443',
       'callback4bot.alexfedorov.pro',
     ],
