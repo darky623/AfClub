@@ -26,10 +26,6 @@
   }
 }
 
-// .wrapper__link {
-//   position: relative;
-// }
-
 .wrapper__btn {
   display: flex;
   justify-content: space-between;
@@ -53,6 +49,16 @@
   z-index: 2;
   @media (max-width: 380px) {
     right: 50px;
+  }
+}
+
+.wraper__CopyBtn {
+  position: absolute;
+  right: 130px;
+  top: 0px;
+  z-index: 2;
+  @media (max-width: 380px) {
+    right: 90px;
   }
 }
 

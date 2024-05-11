@@ -12,10 +12,12 @@ import {
   useCreateMethodMutation,
   useEditMethodMutation,
   useDeleteMethodMutation,
+  useCopyMethodMutation,
 } from "../../redux/api";
 import Loader from "../../shared/ui/Loader";
 import UiModal from "../../shared/ui/UiModal";
 import TemplateDetailComponets from "../../components/TemplateDetailComponets/TemplateDetailComponets";
+import CopyBtn from "../../shared/ui/CopuBtn";
 
 const Templates = ({ main = true }) => {
   const [loading, setLoading] = useState(true);
@@ -29,6 +31,7 @@ const Templates = ({ main = true }) => {
   const [methodId, setNewMethodId] = useState("");
   const [token, setToken] = useState(null);
   const [modalStates, setModalStates] = useState({});
+  const [isRefetch, setIsRefetch] = useState(false);
 
   useEffect(() => {
     setToken(localStorage.getItem("token"));
@@ -45,6 +48,21 @@ const Templates = ({ main = true }) => {
   const [createService] = useCreateMethodMutation();
   const [editMethod] = useEditMethodMutation();
   const [deleteMethod] = useDeleteMethodMutation();
+  const [copyMethod] = useCopyMethodMutation();
+
+  const sendCopyMethod = async (id) => {
+    try {
+      await copyMethod({
+        token,
+        method_id: id,
+      });
+      toast.success("Успешно скопировано");
+      refetch();
+    } catch (error) {
+      toast.error("Произошла ошибка. Пожалуйста, попробуйте еще раз.");
+      setError(true);
+    }
+  };
 
   const sendEditNewMethod = async () => {
     if (!newMethodName) {
@@ -61,6 +79,7 @@ const Templates = ({ main = true }) => {
         createData,
         method_id: methodId,
       });
+      setIsRefetch(true);
       toast.success("Успешно изменено");
       setNewMethodId("");
       refetch();
@@ -97,7 +116,6 @@ const Templates = ({ main = true }) => {
     setMethodDescription("");
     setMethodName("");
   };
-
   /* ////////////////////////////////Функция удаления метода//////////////////////////// */
 
   const sendDeleteMethod = async () => {
@@ -204,9 +222,18 @@ const Templates = ({ main = true }) => {
                 header={
                   <div className={s.panelHeader}>
                     <p className={s.panelHeader__title}>{templates.title}</p>
+                    <div className={s.wraper__CopyBtn}>
+                      <CopyBtn
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          sendCopyMethod(templates.method_id);
+                        }}
+                      />
+                    </div>
                     <div className={s.wraper__DeletBtn}>
                       <DeletBtn
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           setIsOpenDeleteExercise(true);
                           setNewMethodId(templates.method_id);
                         }}
@@ -220,13 +247,20 @@ const Templates = ({ main = true }) => {
                             [templates.method_id]: true,
                           }));
                           setNewMethodId(templates.method_id);
+                          setNewMethodName(templates.title);
+                          setMethodDescription(templates.description);
+                          // e.stopPropagation();
                         }}
                       />
                     </div>
                   </div>
                 }
               >
-                <TemplateDetailComponets id={templates.method_id} />
+                <TemplateDetailComponets
+                  id={templates.method_id}
+                  isRefetch={isRefetch}
+                  setIsRefetch={setIsRefetch}
+                />
 
                 <UiModal
                   nameModal={"Изменение название методики"}

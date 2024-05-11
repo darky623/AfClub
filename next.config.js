@@ -4,11 +4,10 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: [
-      'testbot.alexfedorov.pro:8443',
+      'app.rixyfit.ru/api',
+      'api.rixyfit.ru/api',
       'callback4bot.alexfedorov.pro:8443',
-      'testbot.alexfedorov.pro',
       'callback4bot.alexfedorov.pro',
-      'test.alexfedorov.pro'
     ],
   },
 };
