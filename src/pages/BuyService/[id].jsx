@@ -41,11 +41,11 @@ const BuyService = () => {
   const { data: getLinkBuy, refetch } = useGetBtnPayClientsQuery(
     {
       token: tokens,
-      schedules_id: schedules_id,
+      ...(schedules_id && { schedules_id }),
       service_id: id,
     },
     {
-      skip: !tokens || !schedules_id || !id,
+      skip: !tokens || !id,
     }
   );
 
@@ -210,7 +210,12 @@ const BuyService = () => {
       <SaveBtn
         nameBtn={"Оплатить"}
         onClick={() => {
-          schedules_id ? pickBuy() : toast.error("Выберите доступоное время");
+          if (resultData[0].type === "short") {
+            schedules_id ? pickBuy() : toast.error("Выберите доступоное время");
+            pickBuy();
+            return;
+          }
+          pickBuy();
         }}
       />
     </div>
