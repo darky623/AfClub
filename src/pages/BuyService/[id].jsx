@@ -50,7 +50,7 @@ const BuyService = () => {
   );
 
   const pickBuy = async () => {
-    await refetch();
+    // await refetch();
     if (getLinkBuy[0]?.payment_link) {
       window.location.href = getLinkBuy[0].payment_link;
     } else {
@@ -210,6 +210,11 @@ const BuyService = () => {
       <SaveBtn
         nameBtn={"Оплатить"}
         onClick={() => {
+          if (resultData[0].type === "long") {
+            // setSchedules_id(1);
+            pickBuy();
+            return;
+          }
           schedules_id ? pickBuy() : toast.error("Выберите доступоное время");
         }}
       />
