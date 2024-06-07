@@ -41,16 +41,16 @@ const BuyService = () => {
   const { data: getLinkBuy, refetch } = useGetBtnPayClientsQuery(
     {
       token: tokens,
-      schedules_id: schedules_id,
+      ...(schedules_id && { schedules_id }),
       service_id: id,
     },
     {
-      skip: !tokens || !schedules_id || !id,
+      skip: !tokens || !id,
     }
   );
 
   const pickBuy = async () => {
-    // await refetch();
+    await refetch();
     if (getLinkBuy[0]?.payment_link) {
       window.location.href = getLinkBuy[0].payment_link;
     } else {
@@ -210,12 +210,12 @@ const BuyService = () => {
       <SaveBtn
         nameBtn={"Оплатить"}
         onClick={() => {
-          if (resultData[0].type === "long") {
-            // setSchedules_id(1);
+          if (resultData[0].type === "short") {
+            schedules_id ? pickBuy() : toast.error("Выберите доступоное время");
             pickBuy();
             return;
           }
-          schedules_id ? pickBuy() : toast.error("Выберите доступоное время");
+          pickBuy();
         }}
       />
     </div>
