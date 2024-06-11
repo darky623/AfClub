@@ -42,6 +42,22 @@ const Questionnaire = () => {
     skip: !tokens,
   });
 
+  useEffect(() => {
+    const handleResize = () => {
+      document.documentElement.style.setProperty(
+        "--vh",
+        `${window.innerHeight * 0.01}px`
+      );
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const { data: resultDataStart, isErrorStart } =
     useGetQuestionnaireStartClientQuery(
       { token: tokens },
