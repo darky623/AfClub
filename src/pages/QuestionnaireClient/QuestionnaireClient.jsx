@@ -44,8 +44,10 @@ const Questionnaire = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      const vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty("--vh", `${vh}px`);
+      document.documentElement.style.setProperty(
+        "--vh",
+        `${window.innerHeight * 0.01}px`
+      );
     };
 
     window.addEventListener("resize", handleResize);
@@ -115,6 +117,12 @@ const Questionnaire = () => {
     return <Loader />;
   }
 
+  const handleFocus = (e) => {
+    setTimeout(() => {
+      e.target.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 300);
+  };
+
   return (
     <div className={s.group_detail}>
       <BackLink menuTitle="назад" currentPage="Анкета" disabled={formChanged} />
@@ -131,6 +139,7 @@ const Questionnaire = () => {
                 </p>
                 {question.input_type === "text" ? (
                   <input
+                    onFocus={handleFocus}
                     className={s.questionnaire__input}
                     maxLength="100"
                     type="text"
@@ -141,6 +150,7 @@ const Questionnaire = () => {
                   />
                 ) : question.input_type === "number" ? (
                   <input
+                    onFocus={handleFocus}
                     className={s.questionnaire__input}
                     maxLength="100"
                     type="text"
