@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import React from "react";
 import s from "./BackLink.module.scss";
@@ -9,10 +9,15 @@ import UiModal from "../../shared/ui/UiModal";
 const BackLink = ({ menuTitle, currentPage, disabled }) => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [canGoBack, setCanGoBack] = useState(false);
+
+  useEffect(() => {
+    setCanGoBack(window.history.length > 1);
+  }, []);
 
   const handleBack = () => {
     if (disabled) {
-      setIsModalOpen(true)
+      setIsModalOpen(true);
     } else {
       router.back();
     }
@@ -20,12 +25,16 @@ const BackLink = ({ menuTitle, currentPage, disabled }) => {
 
   const handleOk = async () => {
     setIsModalOpen(false);
-    router.back()
+    router.back();
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  if (!canGoBack) {
+    return null;
+  }
 
   const showModal = () => setIsModalOpen(true);
 
@@ -37,14 +46,16 @@ const BackLink = ({ menuTitle, currentPage, disabled }) => {
       </button>
 
       {showModal && disabled && (
-       <UiModal
-       handleOk={handleOk}
-       handleCancel={handleCancel}
-       nameModal={"Есть не сохраненные изменения"}
-       isModalOpen={isModalOpen}
-     >
-       <p>Вы уверенны что хотите выйти, увас есть не сохраненые изменения?</p>
-     </UiModal>
+        <UiModal
+          handleOk={handleOk}
+          handleCancel={handleCancel}
+          nameModal={"Есть не сохраненные изменения"}
+          isModalOpen={isModalOpen}
+        >
+          <p>
+            Вы уверенны что хотите выйти, увас есть не сохраненые изменения?
+          </p>
+        </UiModal>
       )}
     </div>
   );
