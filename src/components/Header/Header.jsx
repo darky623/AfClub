@@ -30,11 +30,9 @@ const Header = () => {
       <div className={s.header_logo}>
         <Link href={`/?token=${token}`}>AF CLUB</Link>
       </div>
-      {canGoBack ? (
-        <div className={s.header_burger}>
-          <BurgerMenu coachData={coachData} />
-        </div>
-      ) : null}
+      <div className={s.header_burger}>
+        {canGoBack ? <BurgerMenu coachData={coachData} /> : null}
+      </div>
     </div>
   );
 };
