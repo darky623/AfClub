@@ -8,12 +8,11 @@ import NoInform from "../../shared/ui/NoInform";
 import Loader from "../../shared/ui/Loader";
 
 const Experts = () => {
+  const [token, setToken] = useState(null);
 
-  const [token, setToken ] = useState(null)
-
-  useEffect(()=>{
-    setToken(localStorage.getItem("token"))
-  }, [])
+  useEffect(() => {
+    setToken(localStorage.getItem("token"));
+  }, []);
 
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
@@ -44,7 +43,7 @@ const Experts = () => {
 
   return (
     <div className={s.experts}>
-      <BackLink menuTitle="Услуги" currentPage="Эксперты" />
+      <BackLink menuTitle="Услуги" currentPage="Витрина" />
       <div className={s.experts_transitions}>
         {data?.length !== 0 ? (
           data?.map((expert) => (
