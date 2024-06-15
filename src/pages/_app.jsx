@@ -1,7 +1,8 @@
 import { Provider } from "react-redux";
+import React, { useEffect } from "react";
 import { store } from "../redux/store";
 import Layout from "../components/Layout/Layout";
-import { useRouter, useEffect } from "next/router";
+import { useRouter } from "next/router";
 import "../styles/globals.scss";
 
 export default function App({ Component, pageProps }) {
