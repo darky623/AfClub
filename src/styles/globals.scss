@@ -17,7 +17,6 @@ html {
 body {
   -webkit-font-smoothing: antialiased;
   font-family: "Gilroy", sans-serif;
-  background-color: #fff;
 }
 
 picture,
@@ -331,4 +330,8 @@ select {
 .startDatePicker {
   position: fixed;
   top: 0 !important;
+}
+
+.questionnaire-client-background {
+  background: #f2f2f2;
 }
