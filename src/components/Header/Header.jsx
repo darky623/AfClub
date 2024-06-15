@@ -31,7 +31,7 @@ const Header = () => {
         <Link href={`/?token=${token}`}>AF CLUB</Link>
       </div>
       <div className={s.header_burger}>
-        {canGoBack ? <BurgerMenu coachData={coachData} /> : null}
+        <BurgerMenu coachData={coachData} />
       </div>
     </div>
   );
