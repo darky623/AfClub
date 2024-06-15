@@ -14,7 +14,7 @@ export default function App({ Component, pageProps }) {
     <Provider store={store}>
       <div
         className={
-          isQuestionnaireClientPage ? "questionnaire-client-background" : ""
+          isQuestionnaireClientPage ? "questionnaire-client-background" : "#fff"
         }
       >
         <Layout>
