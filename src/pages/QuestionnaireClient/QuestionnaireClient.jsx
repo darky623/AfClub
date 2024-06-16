@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import NoInform from "../../shared/ui/NoInform";
 import SaveBtn from "../../shared/ui/SaveBtn";
 import { Select } from "antd";
+import useKeyboardStatus from "../../hooks/useKeyboardStatus";
 
 const Questionnaire = () => {
   const [loading, setLoading] = useState(true);
@@ -23,6 +24,8 @@ const Questionnaire = () => {
   const [tokens, setTokens] = useState(null);
   const [savedFormData, setSavedFormData] = useState({});
   const { token } = router.query;
+  const isKeyboardOpen = useKeyboardStatus();
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
 
   useEffect(() => {
     const localToken = localStorage.getItem("token");
@@ -33,6 +36,15 @@ const Questionnaire = () => {
       setTokens(localToken);
     }
   }, [token]);
+
+  useEffect(() => {
+    if (isKeyboardOpen) {
+      const height = window.innerHeight * 0.35;
+      setKeyboardHeight(height);
+    } else {
+      setKeyboardHeight(0);
+    }
+  }, [isKeyboardOpen]);
 
   const {
     data: resultData,
@@ -102,7 +114,7 @@ const Questionnaire = () => {
   }
 
   return (
-    <div className={s.group_detail}>
+    <div className={s.group_detail} style={{ paddingBottom: keyboardHeight }}>
       <BackLink menuTitle="назад" currentPage="Анкета" disabled={formChanged} />
       <div className={s.group_detail_desc}>
         {data?.length !== 0 ? (

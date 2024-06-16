@@ -190,23 +190,24 @@ const BuyService = () => {
           </div>
         </div>
       </div>
+      {resultData[0].type === "long" ? null : (
+        <div className={s.buyService_wrapper_time}>
+          <div className={s.buyService__wrapper_circle}>
+            <div className={s.buyService__circle1}></div>
+            <p>Свободно</p>
+            <div className={s.buyService__circle2}></div>
+            <p>Занято</p>
+          </div>
 
-      <div className={s.buyService_wrapper_time}>
-        <div className={s.buyService__wrapper_circle}>
-          <div className={s.buyService__circle1}></div>
-          <p>Свободно</p>
-          <div className={s.buyService__circle2}></div>
-          <p>Занято</p>
+          <div className={s.schedule_info}>
+            {data[0].schedules && data[0].schedules.length > 0 ? (
+              renderSchedule()
+            ) : (
+              <p>Нет доступного расписания</p>
+            )}
+          </div>
         </div>
-
-        <div className={s.schedule_info}>
-          {data[0].schedules && data[0].schedules.length > 0 ? (
-            renderSchedule()
-          ) : (
-            <p>Нет доступного расписания</p>
-          )}
-        </div>
-      </div>
+      )}
       <SaveBtn
         nameBtn={"Оплатить"}
         onClick={() => {
