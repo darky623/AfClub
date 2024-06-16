@@ -30,15 +30,11 @@ const Header = () => {
       <div className={s.header_logo}>
         <Link href={`/?token=${token}`}>AF CLUB</Link>
       </div>
-      <div
-        className={s.header_burger}
-        style={{
-          opacity: canGoBack ? 1 : 0,
-          pointerEvents: canGoBack ? "auto" : "none",
-        }}
-      >
-        <BurgerMenu coachData={coachData} />
-      </div>
+      {canGoBack ? (
+        <div className={s.header_burger}>
+          <BurgerMenu coachData={coachData} />
+        </div>
+      ) : null}
     </div>
   );
 };
