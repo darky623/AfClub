@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import NoInform from "../../shared/ui/NoInform";
 import SaveBtn from "../../shared/ui/SaveBtn";
 import { Select } from "antd";
+import useKeyboardStatus from "../../hooks/useKeyboardStatus";
 
 const Questionnaire = () => {
   const [loading, setLoading] = useState(true);
@@ -23,6 +24,8 @@ const Questionnaire = () => {
   const [tokens, setTokens] = useState(null);
   const [savedFormData, setSavedFormData] = useState({});
   const { token } = router.query;
+  const isKeyboardOpen = useKeyboardStatus();
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
 
   useEffect(() => {
     const localToken = localStorage.getItem("token");
@@ -34,6 +37,15 @@ const Questionnaire = () => {
     }
   }, [token]);
 
+  useEffect(() => {
+    if (isKeyboardOpen) {
+      const height = window.innerHeight * 0.35;
+      setKeyboardHeight(height);
+    } else {
+      setKeyboardHeight(0);
+    }
+  }, [isKeyboardOpen]);
+
   const {
     data: resultData,
     isError,
@@ -41,22 +53,6 @@ const Questionnaire = () => {
   } = useGetQuestionnaireQuery(tokens, {
     skip: !tokens,
   });
-
-  useEffect(() => {
-    const handleResize = () => {
-      document.documentElement.style.setProperty(
-        "--vh",
-        `${window.innerHeight * 0.01}px`
-      );
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   const { data: resultDataStart, isErrorStart } =
     useGetQuestionnaireStartClientQuery(
@@ -117,14 +113,8 @@ const Questionnaire = () => {
     return <Loader />;
   }
 
-  const handleFocus = (e) => {
-    setTimeout(() => {
-      e.target.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 300);
-  };
-
   return (
-    <div className={s.group_detail}>
+    <div className={s.group_detail} style={{ paddingBottom: keyboardHeight }}>
       <BackLink menuTitle="назад" currentPage="Анкета" disabled={formChanged} />
       <div className={s.group_detail_desc}>
         {data?.length !== 0 ? (
@@ -139,7 +129,6 @@ const Questionnaire = () => {
                 </p>
                 {question.input_type === "text" ? (
                   <input
-                    onFocus={handleFocus}
                     className={s.questionnaire__input}
                     maxLength="100"
                     type="text"
@@ -150,7 +139,6 @@ const Questionnaire = () => {
                   />
                 ) : question.input_type === "number" ? (
                   <input
-                    onFocus={handleFocus}
                     className={s.questionnaire__input}
                     maxLength="100"
                     type="text"
