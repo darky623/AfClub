@@ -28,7 +28,11 @@ const Header = () => {
   return (
     <div className={s.header}>
       <div className={s.header_logo}>
-        <Link href={`/?token=${token}`}>AF CLUB</Link>
+        {canGoBack ? (
+          <Link href={`/?token=${token}`}>AF CLUB</Link>
+        ) : (
+          <p className={s.logo_p}>AF CLUB</p>
+        )}
       </div>
       {canGoBack ? (
         <div className={s.header_burger}>
