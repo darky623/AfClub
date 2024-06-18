@@ -113,7 +113,7 @@ const TariffsDetailCreate = () => {
           <textarea
             type="text"
             placeholder="Описание услуги"
-            maxLength={500}
+            maxLength={800}
             value={createData.description}
             onChange={(e) =>
               setCreateData({ ...createData, description: e.target.value })
